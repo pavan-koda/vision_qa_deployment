@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision PDF QA System - Upload</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 50px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #2a5298;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .feature-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .upload-area {
+            border: 3px dashed #2a5298;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f0f4f8;
+        }
+
+        .upload-area:hover {
+            border-color: #1e3c72;
+            background: #e8eef3;
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover {
+            border-color: #1e3c72;
+            background: #e8eaff;
+            transform: scale(1.05);
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .upload-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-info {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8eef3;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .file-info.active {
+            display: block;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .file-size {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .options {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f4f8;
+            border-radius: 10px;
+        }
+
+        .option-group {
+            margin-bottom: 15px;
+        }
+
+        .option-group label {
+            display: block;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .option-group select,
+        .option-group input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .option-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option-description {
+            color: #666;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+
+        .dpi-value {
+            font-weight: 600;
+            color: #2a5298;
+        }
+
+        .upload-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+
+        .upload-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .upload-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress-container.active {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+            position: relative;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .status-message {
+            text-align: center;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .status-message.active {
+            display: block;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .features {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .features h3 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+            background: #f0f4f8;
+            border-radius: 10px;
+        }
+
+        .feature-item .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .feature-item .title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .feature-item .desc {
+            font-size: 0.85em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Vision PDF QA System</h1>
+            <p class="subtitle">AI that SEES and UNDERSTANDS your PDFs</p>
+
+            <div class="feature-badges">
+                <span class="badge">📊 Understands Diagrams</span>
+                <span class="badge">📈 Analyzes Charts</span>
+                <span class="badge">🖼️ Describes Images</span>
+                <span class="badge">📄 500+ Pages</span>
+            </div>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">Drag & Drop your PDF here</div>
+            <div class="upload-subtext">or click to browse (Max 500MB, up to 500+ pages)</div>
+            <input type="file" id="fileInput" accept=".pdf">
+        </div>
+
+        <div class="file-info" id="fileInfo">
+            <div class="file-name" id="fileName"></div>
+            <div class="file-size" id="fileSize"></div>
+        </div>
+
+        <div class="options">
+            <h3 style="margin-bottom: 20px; color: #333;">⚙️ Processing Options</h3>
+
+            <div class="option-group">
+                <label>
+                    Image Quality (DPI)
+                    <span class="dpi-value" id="dpiValue">150</span>
+                </label>
+                <input type="range" id="dpiSlider" min="100" max="300" value="150" step="50">
+                <div class="option-description">
+                    100 = Fast (lower quality) | 150 = Balanced ✓ | 200 = High Quality | 300 = Ultra (slow)
+                </div>
+            </div>
+
+            <div class="option-group">
+                <label>
+                    <input type="checkbox" id="extractImages" checked>
+                    Extract embedded images from PDF
+                </label>
+                <div class="option-description">
+                    Extracts charts, diagrams, and images separately for better analysis
+                </div>
+            </div>
+        </div>
+
+        <button class="upload-button" id="uploadButton" disabled>
+            Select a PDF to Continue
+        </button>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-text" id="progressText">Processing...</div>
+            </div>
+        </div>
+
+        <div class="status-message" id="statusMessage"></div>
+
+        <div class="features">
+            <h3>✨ What This System Can Do</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="icon">🔍</div>
+                    <div class="title">Visual Search</div>
+                    <div class="desc">ColPali finds pages by visual similarity</div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🤖</div>
+                    <div class="title">Vision AI</div>
+                    <div class="desc">Llama 3.2-Vision understands images</div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🔒</div>
+                    <div class="title">100% Private</div>
+                    <div class="desc">Everything runs locally</div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">⚡</div>
+                    <div class="title">Fast Retrieval</div>
+                    <div class="desc">Searches 500 pages in seconds</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const uploadButton = document.getElementById('uploadButton');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const statusMessage = document.getElementById('statusMessage');
+        const dpiSlider = document.getElementById('dpiSlider');
+        const dpiValue = document.getElementById('dpiValue');
+        const extractImages = document.getElementById('extractImages');
+
+        let selectedFile = null;
+
+        // DPI slider
+        dpiSlider.addEventListener('input', (e) => {
+            dpiValue.textContent = e.target.value;
+        });
+
+        // Upload area click
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        // Handle file
+        function handleFile(file) {
+            if (!file.name.toLowerCase().endsWith('.pdf')) {
+                showStatus('Please select a PDF file', 'error');
+                return;
+            }
+
+            if (file.size > 500 * 1024 * 1024) {
+                showStatus('File too large. Maximum size is 500MB', 'error');
+                return;
+            }
+
+            selectedFile = file;
+            fileName.textContent = '📄 ' + file.name;
+            fileSize.textContent = `Size: ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+            fileInfo.classList.add('active');
+            uploadButton.disabled = false;
+            uploadButton.textContent = '🚀 Upload & Process PDF';
+        }
+
+        // Upload button click
+        uploadButton.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            const formData = new FormData();
+            formData.append('pdf_file', selectedFile);
+            formData.append('dpi', dpiSlider.value);
+            formData.append('extract_images', extractImages.checked);
+
+            uploadButton.disabled = true;
+            progressContainer.classList.add('active');
+            statusMessage.classList.remove('active');
+
+            try {
+                // Simulate progress (actual progress from server would be better)
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress > 90) progress = 90;
+                    progressFill.style.width = progress + '%';
+                    progressText.textContent = Math.round(progress) + '%';
+                }, 500);
+
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+                progressText.textContent = '100%';
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showStatus(
+                        `✅ ${data.message}\n` +
+                        `📊 ${data.metadata.total_pages} pages processed\n` +
+                        `🖼️ ${data.metadata.num_page_images} page images created\n` +
+                        `📷 ${data.metadata.num_embedded_images} embedded images extracted\n` +
+                        `⏱️ Processing: ${data.metadata.processing_time}s, Indexing: ${data.metadata.index_time}s`,
+                        'success'
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = '/qa';
+                    }, 2000);
+                } else {
+                    showStatus('❌ ' + (data.error || 'Upload failed'), 'error');
+                    uploadButton.disabled = false;
+                }
+            } catch (error) {
+                showStatus('❌ Error: ' + error.message, 'error');
+                uploadButton.disabled = false;
+            }
+        });
+
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message active ' + type;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload PDF - PDF Q&A System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .upload-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .upload-container {
+            max-width: 600px;
+            width: 100%;
+        }
+        .upload-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .upload-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .upload-header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .upload-area {
+            border: 3px dashed #3498db;
+            border-radius: 10px;
+            padding: 60px 20px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            border-color: #2980b9;
+            background: #e3f2fd;
+        }
+        .upload-area.dragover {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        .file-selected {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .file-selected strong {
+            color: #27ae60;
+        }
+        .processing {
+            text-align: center;
+            padding: 30px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #c62828;
+        }
+        .success-message {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-page">
+        <div class="upload-container">
+            <div class="upload-card">
+                <div class="upload-header">
+                    <h1>📄 PDF Q&A System</h1>
+                    <p>Upload your PDF document to get started</p>
+                </div>
+
+                <!-- Upload Area -->
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-icon">📤</div>
+                    <h3>Drop your PDF here</h3>
+                    <p>or click to browse files</p>
+                    <p style="font-size: 0.9em; color: #7f8c8d; margin-top: 10px;">Maximum file size: 16MB</p>
+                    <input type="file" id="pdf-input" accept=".pdf" hidden>
+                </div>
+
+                <!-- File Selected Info -->
+                <div class="file-selected" id="file-info" style="display: none;">
+                    <p><strong>Selected:</strong> <span id="filename"></span></p>
+                    <p><strong>Size:</strong> <span id="filesize"></span></p>
+                    <div style="margin-top: 15px;">
+                        <label style="display: block; margin-bottom: 10px;">
+                            <input type="checkbox" id="extract-images-checkbox" style="margin-right: 8px;">
+                            Extract images from PDF (slower processing)
+                        </label>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <button class="btn btn-success" id="upload-btn">Upload & Process PDF</button>
+                        <button class="btn btn-secondary" id="cancel-btn" style="margin-left: 10px;">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Processing Status -->
+                <div class="processing" id="processing-status" style="display: none;">
+                    <div class="spinner"></div>
+                    <h3>Processing your PDF...</h3>
+                    <p id="processing-message">Extracting text and creating embeddings...</p>
+                </div>
+
+                <!-- Messages -->
+                <div id="message-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('upload-area');
+        const pdfInput = document.getElementById('pdf-input');
+        const fileInfo = document.getElementById('file-info');
+        const filename = document.getElementById('filename');
+        const filesize = document.getElementById('filesize');
+        const uploadBtn = document.getElementById('upload-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const processingStatus = document.getElementById('processing-status');
+        const messageContainer = document.getElementById('message-container');
+
+        let selectedFile = null;
+
+        // Click to browse
+        uploadArea.addEventListener('click', () => pdfInput.click());
+
+        // File selection
+        pdfInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelection(e.target.files[0]);
+            }
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                if (file.type === 'application/pdf') {
+                    handleFileSelection(file);
+                } else {
+                    showMessage('Please select a PDF file', 'error');
+                }
+            }
+        });
+
+        function handleFileSelection(file) {
+            selectedFile = file;
+            filename.textContent = file.name;
+            filesize.textContent = formatFileSize(file.size);
+            uploadArea.style.display = 'none';
+            fileInfo.style.display = 'block';
+            messageContainer.innerHTML = '';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        cancelBtn.addEventListener('click', () => {
+            selectedFile = null;
+            pdfInput.value = '';
+            uploadArea.style.display = 'block';
+            fileInfo.style.display = 'none';
+            messageContainer.innerHTML = '';
+        });
+
+        uploadBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            const formData = new FormData();
+            formData.append('pdf_file', selectedFile);
+
+            // Add image extraction preference
+            const extractImages = document.getElementById('extract-images-checkbox').checked;
+            formData.append('extract_images', extractImages ? 'true' : 'false');
+
+            fileInfo.style.display = 'none';
+            processingStatus.style.display = 'block';
+            messageContainer.innerHTML = '';
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    let message = `✓ Success! Created ${data.metadata.num_chunks} text chunks from your PDF.`;
+                    if (data.metadata.num_images > 0) {
+                        message += ` Extracted ${data.metadata.num_images} images.`;
+                    }
+                    showMessage(message, 'success');
+                    setTimeout(() => {
+                        window.location.href = '/qa';
+                    }, 1500);
+                } else {
+                    throw new Error(data.error || 'Upload failed');
+                }
+            } catch (error) {
+                processingStatus.style.display = 'none';
+                uploadArea.style.display = 'block';
+                showMessage('Error: ' + error.message, 'error');
+            }
+        });
+
+        function showMessage(message, type) {
+            const className = type === 'error' ? 'error-message' : 'success-message';
+            messageContainer.innerHTML = `<div class="${className}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>

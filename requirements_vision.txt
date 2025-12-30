@@ -1,0 +1,57 @@
+# Vision-based PDF QA System Requirements
+# For handling 500+ page PDFs with images, diagrams, and complex layouts
+
+# Core Flask and Web
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# PDF Processing
+PyMuPDF==1.23.8  # Better than pypdf for image extraction
+pypdf==3.17.4  # Backup PDF library
+Pillow==10.1.0  # Image processing
+
+# Vision and Multimodal AI
+# ColPali for visual document retrieval (OPTIONAL - will use CLIP fallback if not available)
+# Uncomment the line below if you want to try ColPali:
+# colpali-engine>=0.1.0
+# Note: If colpali-engine is not available, system will fall back to CLIP automatically
+
+# ChromaDB for multimodal vector storage
+chromadb==0.4.22
+# Dependencies for ChromaDB
+hnswlib==0.8.0
+pydantic==2.5.3
+
+# Transformers and AI Models
+transformers==4.36.2
+torch==2.1.2  # CPU version - for GPU use: pip install torch --index-url https://download.pytorch.org/whl/cu118
+torchvision==0.16.2
+sentence-transformers==2.2.2
+
+# Vector Search
+faiss-cpu==1.7.4  # For CPU - for GPU use: faiss-gpu
+
+# Ollama Python Client
+ollama==0.1.6  # For Llama 3.2-Vision integration
+requests==2.31.0  # HTTP client for Ollama API
+
+# Utilities
+numpy==1.26.2
+tqdm==4.66.1  # Progress bars
+python-dotenv==1.0.0  # Environment variables
+
+# Optional: Advanced ColPali dependencies
+# Uncomment if you want full ColPali features
+# einops==0.7.0
+# safetensors==0.4.1
+
+# Development and Logging
+python-json-logger==2.0.7
+colorlog==6.8.0
+
+# Notes:
+# 1. Install Ollama separately: https://ollama.ai/download
+# 2. After installing Ollama, pull Llama 3.2-Vision:
+#    ollama pull llama3.2-vision:11b
+# 3. For GPU support, install PyTorch with CUDA:
+#    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118

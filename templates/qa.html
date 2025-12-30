@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Questions - PDF Q&A System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .qa-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .qa-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .qa-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .qa-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .qa-title h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        .pdf-info {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        .qa-container {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-history {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            min-height: 400px;
+            max-height: 600px;
+        }
+        .message {
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .question {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px 10px 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .question strong {
+            color: #1976d2;
+        }
+        .answer {
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 10px 10px 0 10px;
+            border-left: 4px solid #689f38;
+            margin-top: 10px;
+        }
+        .answer strong {
+            color: #558b2f;
+        }
+        .response-time {
+            font-size: 0.8em;
+            color: #757575;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        .input-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        .loader {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9e9e9e;
+        }
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        .model-info {
+            background: #fff3e0;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            border-left: 4px solid #ff9800;
+        }
+        .images-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .images-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .images-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .image-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .image-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f5f5f5;
+        }
+        .image-info {
+            padding: 10px;
+            background: #f9f9f9;
+            font-size: 0.85em;
+            text-align: center;
+            color: #666;
+        }
+        .no-images {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-style: italic;
+        }
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            overflow: auto;
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="qa-page">
+        <div class="qa-header">
+            <div class="qa-header-content">
+                <div class="qa-title">
+                    <span style="font-size: 2em;">💬</span>
+                    <h1>PDF Q&A System</h1>
+                </div>
+                <div class="pdf-info" id="pdf-info">
+                    PDF Ready | Ask questions below
+                </div>
+            </div>
+        </div>
+
+        <div class="qa-container">
+            <!-- Model Info -->
+            <div class="model-info" id="model-info">
+                <strong>Active Models:</strong> {{ embedding_model }} | {{ qa_model }} | {{ generator_model }}
+            </div>
+
+            <!-- Images Section -->
+            <div class="images-section" id="images-section" style="display: none;">
+                <h3>📷 Extracted Images from PDF</h3>
+                <div class="images-gallery" id="images-gallery">
+                    <div class="no-images">Loading images...</div>
+                </div>
+            </div>
+
+            <!-- Chat History -->
+            <div class="chat-history" id="chat-history">
+                <div class="empty-state">
+                    <div class="empty-state-icon">🤔</div>
+                    <h3>No questions yet</h3>
+                    <p>Ask a question about your PDF to get started</p>
+                </div>
+            </div>
+
+            <!-- Input Section -->
+            <div class="input-section">
+                <textarea
+                    id="question-input"
+                    placeholder="Type your question here... (e.g., What is the total amount? Who is the vendor?)"
+                    rows="3"
+                ></textarea>
+                <div class="button-group">
+                    <button class="btn btn-primary" id="ask-btn">
+                        <span id="btn-text">Ask Question</span>
+                    </button>
+                    <button class="btn btn-secondary" id="new-pdf-btn">Upload New PDF</button>
+                    <button class="btn btn-secondary" id="download-log-btn">Download Performance Log</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="image-modal" onclick="closeImageModal()">
+        <span class="close-modal" onclick="closeImageModal()">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+
+    <script>
+        const chatHistory = document.getElementById('chat-history');
+        const questionInput = document.getElementById('question-input');
+        const askBtn = document.getElementById('ask-btn');
+        const btnText = document.getElementById('btn-text');
+        const newPdfBtn = document.getElementById('new-pdf-btn');
+        const downloadLogBtn = document.getElementById('download-log-btn');
+
+        let isProcessing = false;
+        let questionCount = 0;
+
+        // Load images on page load
+        window.addEventListener('load', loadImages);
+
+        async function loadImages() {
+            try {
+                const response = await fetch('/images');
+                const data = await response.json();
+
+                if (response.ok && data.images && data.images.length > 0) {
+                    const imagesSection = document.getElementById('images-section');
+                    const imagesGallery = document.getElementById('images-gallery');
+
+                    imagesSection.style.display = 'block';
+                    imagesGallery.innerHTML = '';
+
+                    data.images.forEach(img => {
+                        const card = document.createElement('div');
+                        card.className = 'image-card';
+                        card.onclick = () => openImageModal(img.url);
+
+                        card.innerHTML = `
+                            <img src="${img.url}" alt="Page ${img.page}">
+                            <div class="image-info">Page ${img.page}</div>
+                        `;
+
+                        imagesGallery.appendChild(card);
+                    });
+                } else {
+                    // No images found, hide section
+                    document.getElementById('images-section').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading images:', error);
+                document.getElementById('images-section').style.display = 'none';
+            }
+        }
+
+        function openImageModal(imageUrl) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            modal.style.display = 'block';
+            modalImg.src = imageUrl;
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').style.display = 'none';
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+
+        // Ask question
+        askBtn.addEventListener('click', askQuestion);
+        questionInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                askQuestion();
+            }
+        });
+
+        async function askQuestion() {
+            const question = questionInput.value.trim();
+            if (!question || isProcessing) return;
+
+            // Clear empty state
+            if (questionCount === 0) {
+                chatHistory.innerHTML = '';
+            }
+
+            // Add question to chat
+            addMessage('question', question);
+            questionInput.value = '';
+            questionCount++;
+
+            // Show loading
+            isProcessing = true;
+            askBtn.disabled = true;
+            btnText.innerHTML = '<span class="loader"></span> Processing...';
+
+            const startTime = Date.now();
+
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question: question })
+                });
+
+                const data = await response.json();
+                const responseTime = ((Date.now() - startTime) / 1000).toFixed(2);
+
+                if (response.ok && data.success) {
+                    addMessage('answer', data.answer, responseTime);
+                } else {
+                    throw new Error(data.error || 'Failed to get answer');
+                }
+            } catch (error) {
+                addMessage('answer', '❌ Error: ' + error.message, null);
+            } finally {
+                isProcessing = false;
+                askBtn.disabled = false;
+                btnText.textContent = 'Ask Question';
+            }
+        }
+
+        function addMessage(type, text, responseTime = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = type;
+
+            const label = type === 'question' ? '❓ Question:' : '💡 Answer:';
+            contentDiv.innerHTML = `<strong>${label}</strong><br>${text.replace(/\n/g, '<br>')}`;
+
+            if (responseTime) {
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'response-time';
+                timeDiv.textContent = `⏱️ Response time: ${responseTime}s`;
+                contentDiv.appendChild(timeDiv);
+            }
+
+            messageDiv.appendChild(contentDiv);
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // New PDF
+        newPdfBtn.addEventListener('click', async () => {
+            if (confirm('Upload a new PDF? This will clear the current session.')) {
+                try {
+                    await fetch('/reset', { method: 'POST' });
+                    window.location.href = '/';
+                } catch (error) {
+                    alert('Error resetting session: ' + error.message);
+                }
+            }
+        });
+
+        // Download Performance Log
+        downloadLogBtn.addEventListener('click', () => {
+            window.location.href = '/download-log';
+        });
+    </script>
+</body>
+</html>

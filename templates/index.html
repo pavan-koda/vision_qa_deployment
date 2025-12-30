@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Q&A System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📄 PDF Question & Answer System</h1>
+            <p class="subtitle">Upload a PDF and ask questions about its content</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Upload Section -->
+            <div class="section upload-section" id="upload-section">
+                <h2>Step 1: Upload Your PDF</h2>
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-icon">📤</div>
+                    <p>Drag & drop your PDF here or click to browse</p>
+                    <input type="file" id="pdf-input" accept=".pdf" hidden>
+                    <button class="btn btn-primary" id="browse-btn">Browse Files</button>
+                </div>
+                <div class="file-info" id="file-info" style="display: none;">
+                    <p><strong>Selected file:</strong> <span id="filename"></span></p>
+                    <button class="btn btn-success" id="upload-btn">Upload & Process</button>
+                    <button class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Status Section -->
+            <div class="section status-section" id="status-section" style="display: none;">
+                <div class="status-message" id="status-message"></div>
+            </div>
+
+            <!-- Q&A Section -->
+            <div class="section qa-section" id="qa-section" style="display: none;">
+                <h2>Step 2: Ask Questions</h2>
+                <div class="qa-container">
+                    <div class="chat-history" id="chat-history"></div>
+                    <div class="input-area">
+                        <textarea
+                            id="question-input"
+                            placeholder="Type your question here..."
+                            rows="3"
+                        ></textarea>
+                        <div class="button-group">
+                            <button class="btn btn-primary" id="ask-btn">Ask Question</button>
+                            <button class="btn btn-secondary" id="reset-btn">Upload New PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loading-overlay" style="display: none;">
+            <div class="spinner"></div>
+            <p id="loading-text">Processing...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
