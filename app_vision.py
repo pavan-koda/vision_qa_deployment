@@ -52,8 +52,12 @@ def allowed_file(filename):
 
 
 def log_performance(session_id, question, answer, response_time, page_info, accuracy=0.0):
-    """Log performance metrics with latest entries on top - simplified format."""
+    """Log performance metrics - append to single file across all sessions."""
     log_file = Path('logs') / 'vision_performance.txt'
+
+    # Ensure logs directory exists
+    log_file.parent.mkdir(exist_ok=True)
+
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # Simplified log entry - only essential metrics, no full response
@@ -70,17 +74,9 @@ Answer Length: {len(answer)} characters
 
 """
 
-    # Read existing content if file exists
-    existing_content = ""
-    if log_file.exists():
-        with open(log_file, 'r', encoding='utf-8') as f:
-            existing_content = f.read()
-
-    # Write new entry at the top, followed by existing content
-    with open(log_file, 'w', encoding='utf-8') as f:
+    # Append new entry to the end of the file (chronological order)
+    with open(log_file, 'a', encoding='utf-8') as f:
         f.write(log_entry)
-        if existing_content:
-            f.write(existing_content)
 
 
 @app.route('/')
@@ -353,28 +349,298 @@ def view_log():
         log_file = Path('logs') / 'vision_performance.txt'
 
         if not log_file.exists():
-            return "<h2>No performance log found</h2><p>Upload a PDF and ask questions to generate logs.</p>"
+            html_content = f"""
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Performance Analytics - AI PDF Assistant</title>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+                <style>
+                    * {{
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                    }}
+
+                    :root {{
+                        --primary-color: #6366f1;
+                        --gray-50: #f9fafb;
+                        --gray-400: #9ca3af;
+                        --gray-600: #4b5563;
+                        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+                        --border-radius-lg: 16px;
+                    }}
+
+                    body {{
+                        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+                        min-height: 100vh;
+                        padding: 2rem 1rem;
+                    }}
+
+                    .container {{
+                        max-width: 800px;
+                        margin: 0 auto;
+                    }}
+
+                    .header {{
+                        background: rgba(255, 255, 255, 0.95);
+                        backdrop-filter: blur(20px);
+                        border-radius: var(--border-radius-lg);
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                        box-shadow: var(--shadow-xl);
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                        text-align: center;
+                    }}
+
+                    .no-logs {{
+                        background: rgba(255, 255, 255, 0.95);
+                        backdrop-filter: blur(20px);
+                        border-radius: var(--border-radius-lg);
+                        padding: 3rem;
+                        text-align: center;
+                        box-shadow: var(--shadow-xl);
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                    }}
+
+                    .no-logs i {{
+                        font-size: 3rem;
+                        color: var(--gray-400);
+                        margin-bottom: 1rem;
+                    }}
+
+                    .back-link {{
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        padding: 0.75rem 1.5rem;
+                        background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 12px;
+                        font-weight: 500;
+                        margin-top: 1.5rem;
+                        transition: all 0.3s ease;
+                    }}
+
+                    .back-link:hover {{
+                        transform: translateY(-2px);
+                        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+                    }}
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1><i class="fas fa-chart-line"></i> Performance Analytics</h1>
+                        <p>View all question-answer performance metrics</p>
+                    </div>
+
+                    <div class="no-logs">
+                        <i class="fas fa-chart-bar"></i>
+                        <h2>No Performance Logs Found</h2>
+                        <p>Upload a PDF and ask questions to generate performance analytics.</p>
+                        <a href="/" class="back-link">
+                            <i class="fas fa-plus"></i>
+                            Start Using AI Assistant
+                        </a>
+                        <button onclick="window.close()" class="back-link" style="margin-left: 1rem; background: var(--gray-100); color: var(--gray-700);">
+                            <i class="fas fa-times"></i>
+                            Close Tab
+                        </button>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """
+            return html_content
 
         with open(log_file, 'r', encoding='utf-8') as f:
             log_content = f.read()
 
-        # Return as HTML with preformatted text
+        # Return as HTML with modern styling
         html_content = f"""
         <!DOCTYPE html>
-        <html>
+        <html lang="en">
         <head>
-            <title>Performance Log</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Performance Analytics - AI PDF Assistant</title>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
             <style>
-                body {{ font-family: monospace; margin: 20px; }}
-                pre {{ white-space: pre-wrap; word-wrap: break-word; }}
-                h1 {{ color: #333; }}
+                * {{
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }}
+
+                :root {{
+                    --primary-color: #6366f1;
+                    --primary-dark: #4f46e5;
+                    --gray-50: #f9fafb;
+                    --gray-100: #f3f4f6;
+                    --gray-200: #e5e7eb;
+                    --gray-600: #4b5563;
+                    --gray-800: #1f2937;
+                    --gray-900: #111827;
+                    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+                    --border-radius-lg: 16px;
+                }}
+
+                body {{
+                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+                    min-height: 100vh;
+                    color: var(--gray-800);
+                    line-height: 1.6;
+                    padding: 2rem 1rem;
+                }}
+
+                .container {{
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }}
+
+                .header {{
+                    background: rgba(255, 255, 255, 0.95);
+                    backdrop-filter: blur(20px);
+                    border-radius: var(--border-radius-lg);
+                    padding: 2rem;
+                    margin-bottom: 2rem;
+                    box-shadow: var(--shadow-xl);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    text-align: center;
+                }}
+
+                .header h1 {{
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: var(--gray-900);
+                    margin-bottom: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                }}
+
+                .header h1 i {{
+                    color: var(--primary-color);
+                }}
+
+                .header p {{
+                    color: var(--gray-600);
+                }}
+
+                .log-container {{
+                    background: rgba(255, 255, 255, 0.95);
+                    backdrop-filter: blur(20px);
+                    border-radius: var(--border-radius-lg);
+                    padding: 2rem;
+                    box-shadow: var(--shadow-xl);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                }}
+
+                .log-content {{
+                    background: var(--gray-50);
+                    border: 1px solid var(--gray-200);
+                    border-radius: 12px;
+                    padding: 1.5rem;
+                    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                    font-size: 0.875rem;
+                    line-height: 1.5;
+                    white-space: pre-wrap;
+                    word-wrap: break-word;
+                    max-height: 70vh;
+                    overflow-y: auto;
+                }}
+
+                .back-link {{
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1.5rem;
+                    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 12px;
+                    font-weight: 500;
+                    margin-top: 1.5rem;
+                    transition: all 0.3s ease;
+                }}
+
+                .back-link:hover {{
+                    transform: translateY(-2px);
+                    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+                }}
+
+                .no-logs {{
+                    text-align: center;
+                    padding: 3rem;
+                    color: var(--gray-600);
+                }}
+
+                .no-logs i {{
+                    font-size: 3rem;
+                    color: var(--gray-400);
+                    margin-bottom: 1rem;
+                }}
+
+                .log-stats {{
+                    display: flex;
+                    gap: 2rem;
+                    margin-bottom: 1.5rem;
+                    flex-wrap: wrap;
+                }}
+
+                .stat {{
+                    background: var(--gray-100);
+                    padding: 0.75rem 1rem;
+                    border-radius: 8px;
+                    font-size: 0.875rem;
+                    color: var(--gray-700);
+                }}
+
+                .log-content::-webkit-scrollbar {{
+                    width: 6px;
+                }}
+
+                .log-content::-webkit-scrollbar-track {{
+                    background: var(--gray-100);
+                    border-radius: 3px;
+                }}
+
+                .log-content::-webkit-scrollbar-thumb {{
+                    background: var(--gray-400);
+                    border-radius: 3px;
+                }}
+
+                .log-content::-webkit-scrollbar-thumb:hover {{
+                    background: var(--gray-500);
+                }}
             </style>
         </head>
         <body>
-            <h1>Performance Log</h1>
-            <pre>{log_content}</pre>
-            <br>
-            <a href="/">← Back to App</a>
+            <div class="container">
+                <div class="header">
+                    <h1><i class="fas fa-chart-line"></i> Performance Analytics</h1>
+                    <p>View all question-answer performance metrics</p>
+                </div>
+
+                <div class="log-container">
+                    <div class="log-content">{log_content}</div>
+                    <a href="/" class="back-link">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to AI Assistant
+                    </a>
+                    <button onclick="window.close()" class="back-link" style="margin-left: 1rem; background: var(--gray-100); color: var(--gray-700);">
+                        <i class="fas fa-times"></i>
+                        Close Tab
+                    </button>
+                </div>
+            </div>
         </body>
         </html>
         """
@@ -383,7 +649,80 @@ def view_log():
 
     except Exception as e:
         logger.error(f"Error viewing log: {str(e)}")
-        return f"<h2>Error viewing log: {str(e)}</h2>"
+        html_content = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Error - Performance Analytics</title>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+            <style>
+                body {{
+                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+                    min-height: 100vh;
+                    padding: 2rem 1rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }}
+
+                .error-container {{
+                    background: rgba(255, 255, 255, 0.95);
+                    backdrop-filter: blur(20px);
+                    border-radius: 16px;
+                    padding: 3rem;
+                    text-align: center;
+                    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+                    max-width: 500px;
+                    width: 100%;
+                }}
+
+                .error-container i {{
+                    font-size: 3rem;
+                    color: #ef4444;
+                    margin-bottom: 1rem;
+                }}
+
+                .back-link {{
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1.5rem;
+                    background: linear-gradient(135deg, #6366f1, #4f46e5);
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 12px;
+                    font-weight: 500;
+                    margin-top: 1.5rem;
+                    transition: all 0.3s ease;
+                }}
+
+                .back-link:hover {{
+                    transform: translateY(-2px);
+                    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="error-container">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Error Loading Analytics</h2>
+                <p>{str(e)}</p>
+                <a href="/" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to AI Assistant
+                </a>
+                <button onclick="window.close()" class="back-link" style="margin-left: 1rem; background: var(--gray-100); color: var(--gray-700);">
+                    <i class="fas fa-times"></i>
+                    Close Tab
+                </button>
+            </div>
+        </body>
+        </html>
+        """
+        return html_content
 
 
 @app.route('/data/<session_id>/embedded_images/<filename>')

@@ -3,33 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Q&A System</title>
+    <title>AI PDF Assistant - Smart Document Q&A</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📄 PDF Question & Answer System</h1>
-            <p class="subtitle">Upload a PDF and ask questions about its content</p>
-            <div style="text-align: right; margin-top: 10px;">
-                <a href="/view-log" style="color: #007bff; text-decoration: none;">📊 View Logs</a>
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-robot"></i>
+                    <div>
+                        <h1>AI PDF Assistant</h1>
+                        <p class="subtitle">Intelligent Document Analysis & Q&A</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <a href="/view-log" class="log-link" target="_blank">
+                        <i class="fas fa-chart-line"></i>
+                        View Analytics
+                    </a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <i class="fas fa-brain"></i>
+                    <span>AI-Powered</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-eye"></i>
+                    <span>Vision Analysis</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-bolt"></i>
+                    <span>Instant Answers</span>
+                </div>
             </div>
         </header>
 
         <div class="main-content">
             <!-- Upload Section -->
             <div class="section upload-section" id="upload-section">
-                <h2>Step 1: Upload Your PDF</h2>
+                <div class="section-header">
+                    <i class="fas fa-upload"></i>
+                    <h2>Upload Your Document</h2>
+                </div>
                 <div class="upload-area" id="upload-area">
-                    <div class="upload-icon">📤</div>
-                    <p>Drag & drop your PDF here or click to browse</p>
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div class="upload-text">
+                            <h3>Drop your PDF here</h3>
+                            <p>or click to browse files</p>
+                            <div class="file-types">
+                                <span class="file-type">PDF</span>
+                                <span class="file-type">Max 50MB</span>
+                            </div>
+                        </div>
+                    </div>
                     <input type="file" id="pdf-input" accept=".pdf" hidden>
-                    <button class="btn btn-primary" id="browse-btn">Browse Files</button>
                 </div>
                 <div class="file-info" id="file-info" style="display: none;">
-                    <p><strong>Selected file:</strong> <span id="filename"></span></p>
-                    <button class="btn btn-success" id="upload-btn">Upload & Process</button>
-                    <button class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                    <div class="file-preview">
+                        <i class="fas fa-file-pdf"></i>
+                        <div class="file-details">
+                            <p class="file-name"><strong><span id="filename"></span></strong></p>
+                            <p class="file-status">Ready to process</p>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" id="cancel-btn">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                        <button class="btn btn-primary" id="upload-btn">
+                            <i class="fas fa-rocket"></i>
+                            Process Document
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -40,18 +92,29 @@
 
             <!-- Q&A Section -->
             <div class="section qa-section" id="qa-section" style="display: none;">
-                <h2>Step 2: Ask Questions</h2>
+                <div class="section-header">
+                    <i class="fas fa-comments"></i>
+                    <h2>Ask Questions</h2>
+                </div>
                 <div class="qa-container">
                     <div class="chat-history" id="chat-history"></div>
                     <div class="input-area">
-                        <textarea
-                            id="question-input"
-                            placeholder="Type your question here..."
-                            rows="3"
-                        ></textarea>
-                        <div class="button-group">
-                            <button class="btn btn-primary" id="ask-btn">Ask Question</button>
-                            <button class="btn btn-secondary" id="reset-btn">Upload New PDF</button>
+                        <div class="input-wrapper">
+                            <textarea
+                                id="question-input"
+                                placeholder="Ask me anything about your document..."
+                                rows="2"
+                            ></textarea>
+                            <div class="input-actions">
+                                <button class="btn btn-secondary" id="reset-btn">
+                                    <i class="fas fa-plus"></i>
+                                    New Document
+                                </button>
+                                <button class="btn btn-primary" id="ask-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Ask Question
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,8 +123,18 @@
 
         <!-- Loading Overlay -->
         <div class="loading-overlay" id="loading-overlay" style="display: none;">
-            <div class="spinner"></div>
-            <p id="loading-text">Processing...</p>
+            <div class="loading-content">
+                <div class="loading-spinner">
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-center">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+                <div class="loading-text">
+                    <h3 id="loading-title">Processing Document</h3>
+                    <p id="loading-text">AI is analyzing your PDF...</p>
+                </div>
+            </div>
         </div>
     </div>
 

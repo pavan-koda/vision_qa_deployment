@@ -1,7 +1,6 @@
 // DOM Elements
 const uploadArea = document.getElementById('upload-area');
 const pdfInput = document.getElementById('pdf-input');
-const browseBtn = document.getElementById('browse-btn');
 const fileInfo = document.getElementById('file-info');
 const filenameSpan = document.getElementById('filename');
 const uploadBtn = document.getElementById('upload-btn');
@@ -14,12 +13,13 @@ const questionInput = document.getElementById('question-input');
 const askBtn = document.getElementById('ask-btn');
 const resetBtn = document.getElementById('reset-btn');
 const loadingOverlay = document.getElementById('loading-overlay');
+const loadingTitle = document.getElementById('loading-title');
 const loadingText = document.getElementById('loading-text');
 
 let selectedFile = null;
 
 // Event Listeners
-browseBtn.addEventListener('click', () => pdfInput.click());
+uploadArea.addEventListener('click', () => pdfInput.click());
 pdfInput.addEventListener('change', handleFileSelect);
 uploadBtn.addEventListener('click', uploadPDF);
 cancelBtn.addEventListener('click', cancelUpload);
@@ -99,7 +99,7 @@ async function uploadPDF() {
     const formData = new FormData();
     formData.append('pdf_file', selectedFile);
 
-    showLoading('Processing PDF...');
+    showLoading('Processing Document', 'AI is analyzing your PDF...');
     uploadBtn.disabled = true;
 
     try {
@@ -148,7 +148,7 @@ async function askQuestion() {
     questionInput.value = '';
     askBtn.disabled = true;
 
-    showLoading('Generating answer...');
+    showLoading('Generating Answer', 'AI is thinking...');
 
     try {
         const response = await fetch('/ask', {
@@ -212,7 +212,7 @@ async function resetSession() {
         return;
     }
 
-    showLoading('Resetting session...');
+    showLoading('Resetting Session', 'Cleaning up...');
 
     try {
         const response = await fetch('/reset', {
@@ -261,7 +261,8 @@ function hideStatus() {
     statusSection.style.display = 'none';
 }
 
-function showLoading(text) {
+function showLoading(title = 'Processing', text = 'Please wait...') {
+    loadingTitle.textContent = title;
     loadingText.textContent = text;
     loadingOverlay.style.display = 'flex';
 }
