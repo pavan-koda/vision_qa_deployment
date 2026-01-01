@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
     <title>AI Vision Assistant - Upload PDF</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-=======
-    <title>Vision PDF QA System - Upload</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
->>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
     <style>
         * {
             margin: 0;
@@ -18,107 +13,40 @@
         }
 
         :root {
-<<<<<<< HEAD
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #a5b4fc;
-            --secondary: #ec4899;
-            --secondary-dark: #db2777;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-=======
             --primary-color: #6366f1;
             --primary-dark: #4f46e5;
             --gray-50: #f9fafb;
             --gray-100: #f3f4f6;
             --gray-200: #e5e7eb;
             --gray-400: #9ca3af;
->>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
             --gray-600: #4b5563;
             --gray-700: #374151;
             --gray-800: #1f2937;
             --gray-900: #111827;
-<<<<<<< HEAD
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            --border-radius: 12px;
-            --border-radius-lg: 16px;
-            --border-radius-xl: 20px;
-=======
             --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
             --border-radius-lg: 16px;
->>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: var(--gray-800);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-<<<<<<< HEAD
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2rem 1rem;
-=======
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
->>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
         }
 
         /* Header */
         .header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-<<<<<<< HEAD
-            border-radius: var(--border-radius-xl);
-            padding: 3rem 2rem;
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-=======
             border-radius: var(--border-radius-lg);
             padding: 2rem;
             margin-bottom: 2rem;
@@ -128,7 +56,7 @@
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: var(--gray-900);
             margin-bottom: 0.5rem;
@@ -147,148 +75,94 @@
             font-size: 1.1rem;
         }
 
+        /* Feature badges */
         .feature-badges {
->>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
             display: flex;
-            align-items: center;
             justify-content: center;
             gap: 1rem;
-<<<<<<< HEAD
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
         }
 
-        .header h1 i {
-            font-size: 2.5rem;
-        }
-
-        .header p {
-            color: var(--gray-600);
-            font-size: 1.2rem;
+        .badge {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
             font-weight: 500;
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            line-height: 1.7;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
 
-        /* Feature Grid */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+        /* Model info */
+        .model-info {
+            background: rgba(255, 193, 7, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #b45309;
+            border: 1px solid rgba(255, 193, 7, 0.2);
         }
 
-        .feature-card {
+        .model-info strong {
+            color: #92400e;
+        }
+
+        /* Upload section */
+        .upload-section {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: var(--border-radius-lg);
             padding: 2rem;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .feature-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 0.75rem;
-        }
-
-        .feature-description {
-            color: var(--gray-600);
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-
-        /* Upload Section */
-        .upload-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-xl);
-            padding: 3rem 2rem;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-        }
-
-        .upload-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-subtitle {
-            color: var(--gray-600);
-            font-size: 1rem;
             margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Upload Area */
+        .upload-section h2 {
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        /* Upload area */
         .upload-area {
-            border: 3px dashed var(--gray-300);
-            border-radius: var(--border-radius-lg);
+            border: 3px dashed var(--gray-200);
+            border-radius: 12px;
             padding: 3rem 2rem;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
+            text-align: center;
             cursor: pointer;
-            position: relative;
+            transition: all 0.3s ease;
             background: var(--gray-50);
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 500px;
         }
 
         .upload-area:hover {
-            border-color: var(--primary);
+            border-color: var(--primary-color);
             background: rgba(99, 102, 241, 0.02);
         }
 
         .upload-area.dragover {
-            border-color: var(--primary);
+            border-color: var(--primary-color);
             background: rgba(99, 102, 241, 0.05);
             transform: scale(1.02);
         }
 
         .upload-icon {
-            font-size: 4rem;
+            font-size: 3rem;
             color: var(--gray-400);
             margin-bottom: 1rem;
-            transition: color 0.3s ease;
         }
 
         .upload-area:hover .upload-icon {
-            color: var(--primary);
+            color: var(--primary-color);
         }
 
         .upload-text {
@@ -301,20 +175,22 @@
         .upload-hint {
             color: var(--gray-500);
             font-size: 0.9rem;
-            margin-bottom: 1rem;
         }
 
         .file-input {
             display: none;
         }
 
+        /* File info */
         .file-info {
             display: none;
             background: var(--gray-100);
             padding: 1rem;
-            border-radius: var(--border-radius);
-            margin-top: 1rem;
-            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary-color);
+            width: 100%;
+            max-width: 500px;
         }
 
         .file-info.show {
@@ -335,23 +211,19 @@
         /* Options */
         .options-section {
             background: var(--gray-50);
-            border-radius: var(--border-radius-lg);
+            border-radius: 12px;
             padding: 2rem;
             margin-bottom: 2rem;
+            width: 100%;
+            max-width: 600px;
         }
 
         .options-title {
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size: 1.1rem;
+            font-weight: 600;
             color: var(--gray-900);
             margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .options-title i {
-            color: var(--primary);
+            text-align: center;
         }
 
         .option-group {
@@ -396,7 +268,7 @@
             width: 100%;
             padding: 0.875rem 1rem;
             border: 2px solid var(--gray-200);
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             font-size: 1rem;
             font-family: inherit;
             background: white;
@@ -407,7 +279,7 @@
 
         select:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
@@ -422,7 +294,7 @@
         .btn {
             padding: 1rem 2rem;
             border: none;
-            border-radius: var(--border-radius-lg);
+            border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -436,14 +308,14 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: var(--shadow-xl);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
         }
 
         .btn-primary:disabled {
@@ -469,11 +341,13 @@
             display: none;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-xl);
+            border-radius: var(--border-radius-lg);
             padding: 2rem;
             box-shadow: var(--shadow-xl);
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
+            width: 100%;
+            max-width: 600px;
         }
 
         .progress-section.show {
@@ -498,7 +372,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
             width: 0%;
             transition: width 0.3s ease;
             border-radius: 4px;
@@ -512,19 +386,19 @@
         .status-message {
             margin-top: 1rem;
             padding: 1rem;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             font-weight: 500;
         }
 
         .status-info {
             background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
+            color: var(--primary-color);
             border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .status-success {
             background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
+            color: #10b981;
             border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
@@ -560,27 +434,31 @@
             }
 
             .header {
-                padding: 2rem 1.5rem;
-                margin-bottom: 2rem;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
             }
 
             .header h1 {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
                 flex-direction: column;
                 gap: 0.5rem;
             }
 
             .header h1 i {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
 
-            .features {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
+            .feature-badges {
+                gap: 0.5rem;
+            }
+
+            .badge {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
             }
 
             .upload-section {
-                padding: 2rem 1.5rem;
+                padding: 1.5rem;
             }
 
             .upload-area {
@@ -588,7 +466,7 @@
             }
 
             .upload-icon {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
 
             .button-group {
@@ -608,19 +486,19 @@
 
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
 
             .header p {
                 font-size: 1rem;
             }
 
-            .feature-card {
-                padding: 1.5rem;
-            }
-
             .upload-area {
                 padding: 1.5rem 1rem;
+            }
+
+            .progress-section {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -636,34 +514,22 @@
             <p>Transform your PDFs into interactive conversations using advanced AI vision technology</p>
         </div>
 
-        <!-- Features -->
-        <div class="features">
-            <div class="feature-card fade-in">
-                <div class="feature-icon"><i class="fas fa-eye"></i></div>
-                <div class="feature-title">Visual Analysis</div>
-                <div class="feature-description">AI examines images, charts, diagrams, and visual content to provide comprehensive answers</div>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"><i class="fas fa-robot"></i></div>
-                <div class="feature-title">Smart Conversations</div>
-                <div class="feature-description">Ask follow-up questions and get context-aware responses based on your conversation history</div>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-                <div class="feature-title">Lightning Fast</div>
-                <div class="feature-description">Advanced indexing and search technology delivers answers in seconds, not minutes</div>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-                <div class="feature-title">Secure & Private</div>
-                <div class="feature-description">Your documents are processed locally and never sent to external servers</div>
-            </div>
+        <!-- Feature Badges -->
+        <div class="feature-badges fade-in">
+            <div class="badge"><i class="fas fa-eye"></i> Visual Analysis</div>
+            <div class="badge"><i class="fas fa-robot"></i> AI Powered</div>
+            <div class="badge"><i class="fas fa-bolt"></i> Lightning Fast</div>
+            <div class="badge"><i class="fas fa-shield-alt"></i> Secure & Private</div>
+        </div>
+
+        <!-- Model Info -->
+        <div class="model-info fade-in">
+            <strong>Using:</strong> Llama 3.2-Vision 11B model with ColPali multimodal embeddings for advanced document understanding
         </div>
 
         <!-- Upload Section -->
         <div class="upload-section fade-in">
-            <div class="upload-title">Upload Your PDF</div>
-            <div class="upload-subtitle">Select a PDF file to begin the AI analysis</div>
+            <h2>Upload Your PDF Document</h2>
 
             <!-- Upload Area -->
             <div class="upload-area" id="uploadArea">
@@ -683,10 +549,7 @@
 
             <!-- Options -->
             <div class="options-section">
-                <div class="options-title">
-                    <i class="fas fa-cogs"></i>
-                    Processing Options
-                </div>
+                <div class="options-title">Processing Options</div>
 
                 <div class="option-group">
                     <label class="option-label">Image Quality (DPI)</label>
@@ -874,585 +737,6 @@
                 el.style.animationDelay = (index * 0.1) + 's';
             });
         });
-    </script>
-</body>
-</html>
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-        }
-
-        .upload-area {
-            border: 3px dashed var(--primary-color);
-            border-radius: 16px;
-            padding: 4rem 2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: var(--gray-50);
-            margin-bottom: 2rem;
-        }
-
-        .upload-area:hover {
-=======
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-
-        .upload-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-lg);
-            padding: 3rem 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-        }
-
-        .upload-area {
-            border: 3px dashed var(--primary-color);
-            border-radius: 16px;
-            padding: 4rem 2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: var(--gray-50);
-            margin-bottom: 2rem;
-        }
-
-        .upload-area:hover {
->>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
-            border-color: var(--primary-dark);
-            background: rgba(99, 102, 241, 0.05);
-            transform: scale(1.02);
-        }
-
-        .upload-area.dragover {
-            border-color: var(--primary-dark);
-            background: rgba(99, 102, 241, 0.1);
-            transform: scale(1.05);
-        }
-
-        .upload-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .upload-text {
-            font-size: 1.5rem;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .upload-subtext {
-            color: var(--gray-600);
-            font-size: 1rem;
-        }
-
-        #fileInput {
-            display: none;
-        }
-
-        .file-info {
-            display: none;
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: var(--gray-100);
-            border-radius: 12px;
-            text-align: left;
-        }
-
-        .file-info.active {
-            display: block;
-        }
-
-        .file-name {
-            font-weight: 600;
-            color: var(--gray-900);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .file-size {
-            color: var(--gray-600);
-            font-size: 0.9rem;
-        }
-
-        .options-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-lg);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .options-section h3 {
-            color: var(--gray-900);
-            margin-bottom: 1.5rem;
-            font-size: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .option-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .option-group label {
-            display: block;
-            font-weight: 500;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
-        }
-
-        .option-group select,
-        .option-group input[type="range"] {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            font-size: 1rem;
-            background: white;
-        }
-
-        .option-group input[type="range"] {
-            cursor: pointer;
-        }
-
-        .option-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 0.5rem;
-            cursor: pointer;
-        }
-
-        .option-description {
-            color: var(--gray-600);
-            font-size: 0.85rem;
-            margin-top: 0.25rem;
-        }
-
-        .dpi-value {
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .upload-button {
-            width: 100%;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.25rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 2rem;
-            transition: all 0.3s;
-        }
-
-        .upload-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        }
-
-        .upload-button:disabled {
-            background: var(--gray-400);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .progress-container {
-            display: none;
-            margin-top: 2rem;
-        }
-
-        .progress-container.active {
-            display: block;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 40px;
-            background: var(--gray-200);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.1);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
-            width: 0%;
-            transition: width 0.3s;
-            position: relative;
-        }
-
-        .progress-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-weight: 600;
-            font-size: 1rem;
-            text-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
-        }
-
-        .status-message {
-            text-align: center;
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            border-radius: 12px;
-            display: none;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .status-message.active {
-            display: block;
-        }
-
-        .status-message.success {
-            background: rgba(34, 197, 94, 0.1);
-            color: #166534;
-            border: 1px solid rgba(34, 197, 94, 0.2);
-        }
-
-        .status-message.error {
-            background: rgba(239, 68, 68, 0.1);
-            color: #991b1b;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .status-message.info {
-            background: rgba(59, 130, 246, 0.1);
-            color: #1e40af;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .features-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-lg);
-            padding: 2rem;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .features-section h3 {
-            color: var(--gray-900);
-            margin-bottom: 2rem;
-            text-align: center;
-            font-size: 1.5rem;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-item {
-            text-align: center;
-            padding: 1.5rem;
-            background: var(--gray-50);
-            border-radius: 12px;
-            border: 1px solid var(--gray-200);
-            transition: all 0.3s;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-
-        .feature-item .icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-item .title {
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-item .desc {
-            font-size: 0.9rem;
-            color: var(--gray-600);
-        }
-
-        @media (max-width: 768px) {
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .feature-badges {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .upload-area {
-                padding: 2rem 1rem;
-            }
-
-            .upload-icon {
-                font-size: 3rem;
-            }
-
-            .upload-text {
-                font-size: 1.25rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1><i class="fas fa-eye"></i> Vision PDF QA System</h1>
-            <p>AI that SEES and UNDERSTANDS your PDFs</p>
-
-            <div class="feature-badges">
-                <span class="badge"><i class="fas fa-chart-bar"></i> Understands Diagrams</span>
-                <span class="badge"><i class="fas fa-chart-line"></i> Analyzes Charts</span>
-                <span class="badge"><i class="fas fa-image"></i> Describes Images</span>
-                <span class="badge"><i class="fas fa-file"></i> 500+ Pages</span>
-            </div>
-        </div>
-
-        <div class="upload-section">
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-icon"><i class="fas fa-file-pdf"></i></div>
-                <div class="upload-text">Drag & Drop your PDF here</div>
-                <div class="upload-subtext">or click to browse (Max 500MB, up to 500+ pages)</div>
-                <input type="file" id="fileInput" accept=".pdf">
-            </div>
-
-            <div class="file-info" id="fileInfo">
-                <div class="file-name" id="fileName"><i class="fas fa-file-pdf"></i> File Name</div>
-                <div class="file-size" id="fileSize">Size: 0 MB</div>
-            </div>
-        </div>
-
-        <div class="options-section">
-            <h3><i class="fas fa-cog"></i> Processing Options</h3>
-
-            <div class="option-group">
-                <label>
-                    Image Quality (DPI)
-                    <span class="dpi-value" id="dpiValue">150</span>
-                </label>
-                <input type="range" id="dpiSlider" min="100" max="300" value="150" step="50">
-                <div class="option-description">
-                    100 = Fast (lower quality) | 150 = Balanced ✓ | 200 = High Quality | 300 = Ultra (slow)
-                </div>
-            </div>
-
-            <div class="option-group">
-                <label>
-                    <input type="checkbox" id="extractImages" checked>
-                    <i class="fas fa-images"></i> Extract embedded images from PDF
-                </label>
-                <div class="option-description">
-                    Extracts charts, diagrams, and images separately for better analysis
-                </div>
-            </div>
-        </div>
-
-        <button class="upload-button" id="uploadButton" disabled>
-            <i class="fas fa-upload"></i> Select a PDF to Continue
-        </button>
-
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-                <div class="progress-text" id="progressText">Processing...</div>
-            </div>
-        </div>
-
-        <div class="status-message" id="statusMessage"></div>
-
-        <div class="features-section">
-            <h3><i class="fas fa-star"></i> What This System Can Do</h3>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <div class="icon">🔍</div>
-                    <div class="title">Visual Search</div>
-                    <div class="desc">ColPali finds pages by visual similarity</div>
-                </div>
-                <div class="feature-item">
-                    <div class="icon">🤖</div>
-                    <div class="title">Vision AI</div>
-                    <div class="desc">Llama 3.2-Vision understands images</div>
-                </div>
-                <div class="feature-item">
-                    <div class="icon">🔒</div>
-                    <div class="title">100% Private</div>
-                    <div class="desc">Everything runs locally</div>
-                </div>
-                <div class="feature-item">
-                    <div class="icon">⚡</div>
-                    <div class="title">Fast Retrieval</div>
-                    <div class="desc">Searches 500 pages in seconds</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const uploadButton = document.getElementById('uploadButton');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-        const statusMessage = document.getElementById('statusMessage');
-        const dpiSlider = document.getElementById('dpiSlider');
-        const dpiValue = document.getElementById('dpiValue');
-        const extractImages = document.getElementById('extractImages');
-
-        let selectedFile = null;
-
-        // DPI slider
-        dpiSlider.addEventListener('input', (e) => {
-            dpiValue.textContent = e.target.value;
-        });
-
-        // Upload area click
-        uploadArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        // Drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handleFile(files[0]);
-            }
-        });
-
-        // File input change
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFile(e.target.files[0]);
-            }
-        });
-
-        // Handle file
-        function handleFile(file) {
-            if (!file.name.toLowerCase().endsWith('.pdf')) {
-                showStatus('Please select a PDF file', 'error');
-                return;
-            }
-
-            if (file.size > 500 * 1024 * 1024) {
-                showStatus('File too large. Maximum size is 500MB', 'error');
-                return;
-            }
-
-            selectedFile = file;
-            fileName.innerHTML = '<i class="fas fa-file-pdf"></i> ' + file.name;
-            fileSize.textContent = `Size: ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-            fileInfo.classList.add('active');
-            uploadButton.disabled = false;
-            uploadButton.innerHTML = '<i class="fas fa-rocket"></i> Upload & Process PDF';
-        }
-
-        // Upload button click
-        uploadButton.addEventListener('click', async () => {
-            if (!selectedFile) return;
-
-            const formData = new FormData();
-            formData.append('pdf_file', selectedFile);
-            formData.append('dpi', dpiSlider.value);
-            formData.append('extract_images', extractImages.checked);
-
-            uploadButton.disabled = true;
-            progressContainer.classList.add('active');
-            statusMessage.classList.remove('active');
-
-            try {
-                // Simulate progress (actual progress from server would be better)
-                let progress = 0;
-                const progressInterval = setInterval(() => {
-                    progress += Math.random() * 15;
-                    if (progress > 90) progress = 90;
-                    progressFill.style.width = progress + '%';
-                    progressText.textContent = Math.round(progress) + '%';
-                }, 500);
-
-                const response = await fetch('/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                clearInterval(progressInterval);
-                progressFill.style.width = '100%';
-                progressText.textContent = '100%';
-
-                const data = await response.json();
-
-                if (response.ok && data.success) {
-                    showStatus(
-                        `✅ ${data.message}\n` +
-                        `📊 ${data.metadata.total_pages} pages processed\n` +
-                        `🖼️ ${data.metadata.num_page_images} page images created\n` +
-                        `📷 ${data.metadata.num_embedded_images} embedded images extracted\n` +
-                        `⏱️ Processing: ${data.metadata.processing_time}s, Indexing: ${data.metadata.index_time}s`,
-                        'success'
-                    );
-
-                    setTimeout(() => {
-                        window.location.href = '/qa';
-                    }, 2000);
-                } else {
-                    showStatus('❌ ' + (data.error || 'Upload failed'), 'error');
-                    uploadButton.disabled = false;
-                }
-            } catch (error) {
-                showStatus('❌ Error: ' + error.message, 'error');
-                uploadButton.disabled = false;
-            }
-        });
-
-        function showStatus(message, type) {
-            statusMessage.textContent = message;
-            statusMessage.className = 'status-message active ' + type;
-        }
     </script>
 </body>
 </html>

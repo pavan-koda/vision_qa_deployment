@@ -1,0 +1,2315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <title>AI Vision Assistant - Ask Questions</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+=======
+    <title>Vision PDF QA - Ask Questions</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+<<<<<<< HEAD
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --secondary: #ec4899;
+            --secondary-dark: #db2777;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+=======
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+<<<<<<< HEAD
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 20px;
+=======
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --border-radius-lg: 16px;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+<<<<<<< HEAD
+            padding: 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+=======
+            padding: 2rem 1rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .header h1 i {
+            color: var(--primary-color);
+        }
+
+        .header p {
+            color: var(--gray-600);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: fit-content;
+        }
+
+        .pdf-info {
+            margin-bottom: 2rem;
+        }
+
+        .pdf-info h3 {
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-200);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .header h1 i {
+            font-size: 2rem;
+        }
+
+        .header p {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            color: var(--gray-900);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* PDF Info */
+        .pdf-info .info-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            border-color: var(--primary-light);
+            background: rgba(99, 102, 241, 0.02);
+        }
+
+        .info-label {
+            color: var(--gray-600);
+<<<<<<< HEAD
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            color: var(--gray-900);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .info-value.pages {
+            color: var(--primary);
+        }
+
+        .info-value.time {
+            color: var(--success);
+        }
+
+        /* Quick Questions */
+        .quick-questions .question-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .question-btn {
+            background: linear-gradient(135deg, var(--gray-50), var(--gray-100));
+            border: 2px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .question-btn:hover {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(99, 102, 241, 0.1));
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+=======
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .quick-questions h3 {
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .question-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+        }
+
+        .question-btn:hover {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateX(2px);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .question-btn:hover::before {
+            left: 100%;
+        }
+
+        .question-btn i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+<<<<<<< HEAD
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.25rem;
+=======
+            display: flex;
+            gap: 0.5rem;
+            flex-direction: column;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+<<<<<<< HEAD
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+=======
+            font-weight: 500;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+<<<<<<< HEAD
+            box-shadow: var(--shadow-lg);
+=======
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+<<<<<<< HEAD
+            border: 2px solid var(--gray-200);
+=======
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+<<<<<<< HEAD
+            border-color: var(--gray-300);
+        }
+
+        /* Chat Panel */
+        .chat-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-xl);
+=======
+        }
+
+        .chat-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+<<<<<<< HEAD
+            height: calc(100vh - 300px);
+            min-height: 600px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--gray-50), var(--gray-100));
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chat-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-item i {
+            color: var(--primary);
+=======
+            height: 600px;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+<<<<<<< HEAD
+            padding: 2rem;
+            background: var(--gray-50);
+            scroll-behavior: smooth;
+=======
+            padding: 1.5rem;
+            background: var(--gray-50);
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--gray-600);
+        }
+
+        .welcome-message h2 {
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .welcome-message p {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .example-questions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .example-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .example-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .example-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-card .title {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .example-card .text {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: var(--gray-100);
+            border-radius: 3px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: var(--gray-400);
+            border-radius: 3px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-500);
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-600);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .welcome-message h2 {
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-message p {
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .example-questions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .example-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            border: 2px solid var(--gray-200);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .example-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .example-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .example-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .example-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .example-card .title {
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .example-card .text {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Messages */
+        .message {
+<<<<<<< HEAD
+            margin-bottom: 2rem;
+            animation: slideIn 0.5s ease-out;
+=======
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .message.user {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .message.assistant {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .message-bubble {
+<<<<<<< HEAD
+            max-width: 85%;
+            padding: 1.5rem 1.75rem;
+            border-radius: var(--border-radius-lg);
+            line-height: 1.7;
+            position: relative;
+            box-shadow: var(--shadow-md);
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+=======
+            max-width: 80%;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            line-height: 1.6;
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+            color: white;
+            border-bottom-right-radius: 8px;
+        }
+
+        .message.assistant .message-bubble {
+            background: white;
+            color: var(--gray-800);
+            border: 1px solid var(--gray-200);
+<<<<<<< HEAD
+            border-bottom-left-radius: 8px;
+=======
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+<<<<<<< HEAD
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .message.user .message-header {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .message.assistant .message-header {
+            color: var(--gray-900);
+=======
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .message-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 1rem;
+        }
+
+        .message-meta {
+<<<<<<< HEAD
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+=======
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+            font-size: 0.8rem;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .message.assistant .message-meta {
+            border-top-color: var(--gray-200);
+            color: var(--gray-600);
+        }
+
+<<<<<<< HEAD
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .meta-item i {
+            font-size: 0.75rem;
+        }
+
+        /* Images */
+        .extracted-images {
+            margin-top: 1.5rem;
+        }
+
+        .images-title {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+            font-weight: 600;
+=======
+        .extracted-images {
+            margin-top: 1rem;
+        }
+
+        .extracted-images > div:first-child {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-bottom: 0.5rem;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .image-grid {
+            display: grid;
+<<<<<<< HEAD
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 0.75rem;
+=======
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .image-wrapper {
+            cursor: pointer;
+<<<<<<< HEAD
+            border: 2px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .image-wrapper:hover {
+            border-color: var(--primary);
+            transform: scale(1.02);
+            box-shadow: var(--shadow-lg);
+=======
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .image-wrapper:hover {
+            transform: scale(1.05);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .image-wrapper img {
+            width: 100%;
+<<<<<<< HEAD
+            height: 140px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-wrapper:hover img {
+            transform: scale(1.05);
+=======
+            height: 120px;
+            object-fit: cover;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+<<<<<<< HEAD
+            padding: 1.25rem 1.5rem;
+            background: white;
+            border-radius: var(--border-radius-lg);
+            border-bottom-left-radius: 8px;
+            max-width: 120px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            animation: pulse 2s infinite;
+=======
+            padding: 1rem 1.25rem;
+            background: white;
+            border-radius: 12px;
+            border-bottom-left-radius: 5px;
+            max-width: 80px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .typing-indicator.active {
+            display: flex;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+<<<<<<< HEAD
+            background: var(--primary);
+=======
+            background: var(--primary-color);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        /* Input Area */
+        .input-area {
+<<<<<<< HEAD
+            padding: 2rem;
+=======
+            padding: 1.5rem;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+            background: white;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        #questionInput {
+            width: 100%;
+<<<<<<< HEAD
+            padding: 1.25rem 1.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            font-size: 1rem;
+            font-family: inherit;
+            resize: none;
+            max-height: 140px;
+            transition: all 0.3s ease;
+            background: var(--gray-50);
+            line-height: 1.6;
+=======
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: none;
+            max-height: 120px;
+            transition: all 0.3s;
+            background: var(--gray-50);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        #questionInput:focus {
+            outline: none;
+<<<<<<< HEAD
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            background: white;
+        }
+
+        #questionInput::placeholder {
+            color: var(--gray-400);
+            font-style: italic;
+=======
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: white;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        .char-count {
+            position: absolute;
+<<<<<<< HEAD
+            bottom: -24px;
+            right: 8px;
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+
+        #askButton {
+            padding: 1.25rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-lg);
+            font-size: 1rem;
+            font-weight: 700;
+=======
+            bottom: -20px;
+            right: 5px;
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        #askButton {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #askButton:hover:not(:disabled) {
+<<<<<<< HEAD
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+=======
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        }
+
+        #askButton:disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+<<<<<<< HEAD
+        #askButton i {
+            font-size: 1rem;
+        }
+
+        /* Image Modal */
+=======
+        /* Modal for image preview */
+>>>>>>> b585ca951e944e34927908f69f5a7c94c421b951
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        .image-modal-container {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            cursor: grab;
+        }
+
+        .image-modal-container.grabbing {
+            cursor: grabbing;
+        }
+
+        #modalImage {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            30% {
+                transform: translateY(-12px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Loading States */
+        .loading {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .chat-panel {
+                height: calc(100vh - 400px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .main-content {
+                gap: 1rem;
+            }
+
+            .sidebar {
+                padding: 1.5rem;
+            }
+
+            .chat-panel {
+                height: calc(100vh - 350px);
+            }
+
+            .chat-container {
+                padding: 1rem;
+            }
+
+            .input-area {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            #askButton {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .example-questions {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .message-bubble {
+                max-width: 95%;
+            }
+
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .chat-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+
+            .message-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-brain"></i>
+                AI Vision Assistant
+            </h1>
+            <p>Ask questions about your PDF using advanced AI vision technology</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- PDF Info -->
+                <div class="sidebar-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-file-pdf"></i>
+                        Document Info
+                    </h3>
+                    <div class="pdf-info">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Pages</div>
+                                <div class="info-value pages">{{ metadata.total_pages }}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Processing Time</div>
+                                <div class="info-value time">{{ metadata.processing_time }}s</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Index Time</div>
+                                <div class="info-value">{{ metadata.index_time }}s</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Images Found</div>
+                                <div class="info-value">{{ metadata.num_embedded_images + metadata.num_page_images }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Questions -->
+                <div class="sidebar-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-lightbulb"></i>
+                        Quick Questions
+                    </h3>
+                    <div class="quick-questions">
+                        <div class="question-grid">
+                            <button class="question-btn" onclick="askQuestion('What is the main topic of this document?')">
+                                <i class="fas fa-question-circle"></i>
+                                Main topic
+                            </button>
+                            <button class="question-btn" onclick="askQuestion('Summarize the key points from this PDF')">
+                                <i class="fas fa-list-ul"></i>
+                                Key points
+                            </button>
+                            <button class="question-btn" onclick="askQuestion('What are the main conclusions or findings?')">
+                                <i class="fas fa-search"></i>
+                                Conclusions
+                            </button>
+                            <button class="question-btn" onclick="askQuestion('Explain any charts or diagrams in the document')">
+                                <i class="fas fa-chart-bar"></i>
+                                Charts & diagrams
+                            </button>
+                            <button class="question-btn" onclick="askQuestion('What methodology or approach is used?')">
+                                <i class="fas fa-cogs"></i>
+                                Methodology
+                            </button>
+                            <button class="question-btn" onclick="askQuestion('What are the recommendations or next steps?')">
+                                <i class="fas fa-arrow-right"></i>
+                                Recommendations
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="sidebar-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-tools"></i>
+                        Actions
+                    </h3>
+                    <div class="action-buttons">
+                        <a href="/view-log" target="_blank" class="btn btn-secondary">
+                            <i class="fas fa-chart-line"></i>
+                            View Analytics
+                        </a>
+                        <button onclick="resetSession()" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i>
+                            New Document
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Panel -->
+            <div class="chat-panel">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        <i class="fas fa-comments"></i>
+                        Conversation
+                    </div>
+                    <div class="chat-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-file-pdf"></i>
+                            {{ metadata.filename }}
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            Session Active
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-container" id="chatContainer">
+                    <div class="welcome-message">
+                        <h2>Welcome to AI Vision Assistant! 👋</h2>
+                        <p>I've analyzed your PDF and I'm ready to answer questions. You can ask me anything about the content, and I'll use both text and visual analysis to provide accurate answers.</p>
+
+                        <div class="example-questions">
+                            <div class="example-card" onclick="askQuestion('What is this document about?')">
+                                <div class="icon"><i class="fas fa-file-alt"></i></div>
+                                <div class="title">Document Overview</div>
+                                <div class="text">Get a comprehensive summary of the entire document</div>
+                            </div>
+                            <div class="example-card" onclick="askQuestion('Explain the main concepts and ideas')">
+                                <div class="icon"><i class="fas fa-brain"></i></div>
+                                <div class="title">Key Concepts</div>
+                                <div class="text">Understand the core ideas and principles discussed</div>
+                            </div>
+                            <div class="example-card" onclick="askQuestion('What are the most important findings or results?')">
+                                <div class="icon"><i class="fas fa-star"></i></div>
+                                <div class="title">Important Findings</div>
+                                <div class="text">Discover the critical results and conclusions</div>
+                            </div>
+                            <div class="example-card" onclick="askQuestion('Describe any images, charts, or diagrams')">
+                                <div class="icon"><i class="fas fa-images"></i></div>
+                                <div class="title">Visual Content</div>
+                                <div class="text">Analyze and explain all visual elements in the document</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="input-area">
+                    <div class="input-wrapper">
+                        <textarea
+                            id="questionInput"
+                            placeholder="Ask me anything about your PDF... (e.g., 'What are the main findings?' or 'Explain the methodology')"
+                            maxlength="1000"
+                            rows="1"
+                        ></textarea>
+                        <div class="char-count" id="charCount">0 / 1000</div>
+                    </div>
+                    <button id="askButton">
+                        <i class="fas fa-paper-plane"></i>
+                        Ask AI
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <div class="image-modal-container">
+            <button class="modal-close" onclick="closeImageModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modalImage" src="" alt="Extracted image" draggable="false">
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const chatContainer = document.getElementById('chatContainer');
+        const questionInput = document.getElementById('questionInput');
+        const askButton = document.getElementById('askButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const charCount = document.getElementById('charCount');
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        // Auto-resize textarea
+        questionInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 140) + 'px';
+
+            // Update character count
+            const length = this.value.length;
+            charCount.textContent = `${length} / 1000`;
+
+            // Change color based on length
+            if (length > 900) {
+                charCount.style.color = '#ef4444';
+            } else if (length > 800) {
+                charCount.style.color = '#f59e0b';
+            } else {
+                charCount.style.color = 'var(--gray-400)';
+            }
+        });
+
+        // Enter to submit (Shift+Enter for new line)
+        questionInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submitQuestion();
+            }
+        });
+
+        // Quick question function
+        function askQuestion(question) {
+            questionInput.value = question;
+            questionInput.style.height = 'auto';
+            questionInput.style.height = questionInput.scrollHeight + 'px';
+            charCount.textContent = `${question.length} / 1000`;
+            questionInput.focus();
+        }
+
+        // Submit question
+        async function submitQuestion() {
+            const question = questionInput.value.trim();
+            if (!question) return;
+
+            // Clear welcome message if exists
+            const welcome = document.querySelector('.welcome-message');
+            if (welcome) {
+                welcome.style.animation = 'fadeIn 0.3s reverse';
+                setTimeout(() => welcome.remove(), 300);
+            }
+
+            // Add user message
+            const userTimestamp = new Date().toLocaleTimeString('en-US', {hour12: false});
+            addMessage('user', question, {timestamp: userTimestamp});
+
+            // Clear input
+            questionInput.value = '';
+            questionInput.style.height = 'auto';
+            charCount.textContent = '0 / 1000';
+
+            // Disable button and show loading
+            askButton.disabled = true;
+            askButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+
+            // Show typing indicator
+            typingIndicator.classList.add('active');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        use_vision: true,
+                        top_k: 5
+                    })
+                });
+
+                const data = await response.json();
+
+                // Hide typing indicator
+                typingIndicator.classList.remove('active');
+
+                if (response.ok && data.success) {
+                    // Add assistant message
+                    const assistantTimestamp = new Date().toLocaleTimeString('en-US', {hour12: false});
+                    addMessage('assistant', data.answer, {
+                        responseTime: data.response_time,
+                        timestamp: assistantTimestamp,
+                        usedVision: data.used_vision,
+                        images: data.images || [],
+                        page: data.page
+                    });
+                } else {
+                    addMessage('assistant', `❌ ${data.error || 'Failed to generate answer'}`, {
+                        isError: true
+                    });
+                }
+            } catch (error) {
+                typingIndicator.classList.remove('active');
+                addMessage('assistant', `❌ Error: ${error.message}`, { isError: true });
+            }
+
+            // Re-enable button
+            askButton.disabled = false;
+            askButton.innerHTML = '<i class="fas fa-paper-plane"></i> Ask AI';
+            questionInput.focus();
+        }
+
+        // Add message to chat
+        function addMessage(type, content, meta = {}) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+
+            // Header
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'message-header';
+            if (type === 'user') {
+                headerDiv.innerHTML = '<i class="fas fa-user"></i> You';
+            } else {
+                headerDiv.innerHTML = '<i class="fas fa-robot"></i> AI Vision Assistant';
+            }
+
+            // Content
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+
+            bubbleDiv.appendChild(headerDiv);
+            bubbleDiv.appendChild(contentDiv);
+
+            // Meta information
+            if (Object.keys(meta).length > 0 && !meta.isError) {
+                const metaDiv = document.createElement('div');
+                metaDiv.className = 'message-meta';
+
+                if (meta.responseTime) {
+                    const timeItem = document.createElement('div');
+                    timeItem.className = 'meta-item';
+                    timeItem.innerHTML = `<i class="fas fa-clock"></i> ${meta.responseTime}s`;
+                    metaDiv.appendChild(timeItem);
+                }
+
+                if (meta.usedVision) {
+                    const visionItem = document.createElement('div');
+                    visionItem.className = 'meta-item';
+                    visionItem.innerHTML = `<i class="fas fa-eye"></i> Vision Analysis`;
+                    metaDiv.appendChild(visionItem);
+                }
+
+                if (meta.page) {
+                    const pageItem = document.createElement('div');
+                    pageItem.className = 'meta-item';
+                    pageItem.innerHTML = `<i class="fas fa-file-alt"></i> Page ${meta.page}`;
+                    metaDiv.appendChild(pageItem);
+                }
+
+                if (meta.timestamp) {
+                    const timestampItem = document.createElement('div');
+                    timestampItem.className = 'meta-item';
+                    timestampItem.innerHTML = `<i class="fas fa-calendar"></i> ${meta.timestamp}`;
+                    metaDiv.appendChild(timestampItem);
+                }
+
+                bubbleDiv.appendChild(metaDiv);
+            }
+
+            // Images
+            if (meta.images && meta.images.length > 0) {
+                const imagesDiv = document.createElement('div');
+                imagesDiv.className = 'extracted-images';
+
+                const imagesTitle = document.createElement('div');
+                imagesTitle.className = 'images-title';
+                imagesTitle.textContent = 'Relevant Images:';
+                imagesDiv.appendChild(imagesTitle);
+
+                const imageGrid = document.createElement('div');
+                imageGrid.className = 'image-grid';
+
+                meta.images.forEach(imagePath => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'image-wrapper';
+                    wrapper.onclick = () => openImageModal(imagePath);
+
+                    const img = document.createElement('img');
+                    img.src = imagePath;
+                    img.alt = 'Extracted image';
+                    img.loading = 'lazy';
+
+                    wrapper.appendChild(img);
+                    imageGrid.appendChild(wrapper);
+                });
+
+                imagesDiv.appendChild(imageGrid);
+                bubbleDiv.appendChild(imagesDiv);
+            }
+
+            messageDiv.appendChild(bubbleDiv);
+            chatContainer.appendChild(messageDiv);
+
+            // Smooth scroll to bottom
+            setTimeout(() => {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 100);
+        }
+
+        // Image modal functions
+        function openImageModal(imagePath) {
+            modalImage.src = imagePath;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            imageModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && imageModal.classList.contains('active')) {
+                closeImageModal();
+            }
+        });
+
+        // Close modal on click outside
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                closeImageModal();
+            }
+        });
+
+        // Reset session
+        function resetSession() {
+            if (confirm('Are you sure you want to start with a new document? This will clear the current conversation.')) {
+                fetch('/reset', { method: 'POST' })
+                    .then(() => {
+                        window.location.href = '/';
+                    })
+                    .catch(error => {
+                        console.error('Error resetting session:', error);
+                        alert('Error resetting session. Please refresh the page.');
+                    });
+            }
+        }
+
+        // Initialize
+        questionInput.focus();
+
+        // Handle ask button click
+        askButton.addEventListener('click', submitQuestion);
+    </script>
+</body>
+</html>
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            background: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .image-modal-close:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .zoom-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 15px;
+            border-radius: 30px;
+            z-index: 1001;
+        }
+
+        .zoom-btn {
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: var(--gray-800);
+            font-weight: bold;
+        }
+
+        .zoom-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .zoom-level {
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 14px;
+            font-weight: 600;
+            min-width: 60px;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .chat-panel {
+                order: 1;
+                height: 500px;
+            }
+
+            .example-questions {
+                grid-template-columns: 1fr;
+            }
+
+            .input-area {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            #askButton {
+                align-self: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-eye"></i> Vision PDF Q&A</h1>
+            <p>Ask questions about diagrams, charts, images, and text in your PDF</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="pdf-info">
+                    <h3><i class="fas fa-file-pdf"></i> PDF Information</h3>
+                    <div class="info-row">
+                        <span class="info-label">Pages:</span>
+                        <span class="info-value" id="totalPages">{{ metadata.total_pages }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">File:</span>
+                        <span class="info-value" id="fileName" title="{{ metadata.filename }}">
+                            {{ metadata.filename[:20] }}...
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Images:</span>
+                        <span class="info-value">{{ metadata.num_embedded_images }}</span>
+                    </div>
+                </div>
+
+                <div class="quick-questions">
+                    <h3><i class="fas fa-lightbulb"></i> Quick Questions</h3>
+                    <button class="question-btn" onclick="askQuestion('What diagrams are in this document?')">
+                        <i class="fas fa-image"></i> What diagrams are in this document?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('Explain the main diagram or chart')">
+                        <i class="fas fa-chart-bar"></i> Explain the main diagram or chart
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('Summarize the key findings')">
+                        <i class="fas fa-file-alt"></i> Summarize the key findings
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What does the architecture show?')">
+                        <i class="fas fa-building"></i> What does the architecture show?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('Describe any tables or data')">
+                        <i class="fas fa-table"></i> Describe any tables or data
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What images or photos are included?')">
+                        <i class="fas fa-camera"></i> What images or photos are included?
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="resetSession()">
+                        <i class="fas fa-redo"></i> New PDF
+                    </button>
+                    <button class="btn btn-primary" onclick="downloadLog()">
+                        <i class="fas fa-download"></i> View Analytics
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Chat Panel -->
+            <div class="chat-panel">
+                <div class="chat-container" id="chatContainer">
+                    <div class="welcome-message">
+                        <h2><i class="fas fa-robot"></i> Ready to analyze your PDF!</h2>
+                        <p>
+                            Your PDF has been processed with vision capabilities.<br>
+                            I can understand diagrams, charts, images, tables, and text.<br>
+                            Ask me anything about the visual or textual content!
+                        </p>
+
+                        <div class="example-questions">
+                            <div class="example-card" onclick="askQuestion('What does the diagram on page [X] show?')">
+                                <div class="icon">📐</div>
+                                <div class="title">Diagrams</div>
+                                <div class="text">"What does the diagram on page [X] show?"</div>
+                            </div>
+                            <div class="example-card" onclick="askQuestion('Analyze the chart showing [topic]')">
+                                <div class="icon">📈</div>
+                                <div class="title">Charts & Graphs</div>
+                                <div class="text">"Analyze the chart showing [topic]"</div>
+                            </div>
+                            <div class="example-card" onclick="askQuestion('Describe the image in section [Y]')">
+                                <div class="icon">🖼️</div>
+                                <div class="title">Images</div>
+                                <div class="text">"Describe the image in section [Y]"</div>
+                            </div>
+                            <div class="example-card" onclick="askQuestion('What are the values in the table?')">
+                                <div class="icon">📊</div>
+                                <div class="title">Tables</div>
+                                <div class="text">"What are the values in the table?"</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="typing-indicator" id="typingIndicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-wrapper">
+                        <textarea
+                            id="questionInput"
+                            placeholder="Ask about diagrams, charts, images, tables, or any content..."
+                            rows="2"
+                            maxlength="1000"
+                        ></textarea>
+                        <div class="char-count" id="charCount">0 / 1000</div>
+                    </div>
+                    <button id="askButton" onclick="submitQuestion()">
+                        <i class="fas fa-paper-plane"></i> Ask
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+        <div class="image-modal-container" id="imageContainer">
+            <img id="modalImage" src="" alt="Full size image">
+        </div>
+        <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">−</button>
+            <span class="zoom-level" id="zoomLevel">100%</span>
+            <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</button>
+            <button class="zoom-btn" onclick="resetZoom()" title="Reset Zoom">⟲</button>
+        </div>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const questionInput = document.getElementById('questionInput');
+        const askButton = document.getElementById('askButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const charCount = document.getElementById('charCount');
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        // Character count
+        questionInput.addEventListener('input', () => {
+            const length = questionInput.value.length;
+            charCount.textContent = `${length} / 1000`;
+        });
+
+        // Enter to submit
+        questionInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submitQuestion();
+            }
+        });
+
+        function askQuestion(question) {
+            questionInput.value = question;
+            questionInput.focus();
+        }
+
+        async function submitQuestion() {
+            const question = questionInput.value.trim();
+            if (!question) return;
+
+            // Clear welcome message if exists
+            const welcome = document.querySelector('.welcome-message');
+            if (welcome) welcome.remove();
+
+            // Add user message with timestamp
+            const userTimestamp = new Date().toLocaleTimeString('en-US', {hour12: false});
+            addMessage('user', question, {timestamp: userTimestamp});
+
+            // Clear input
+            questionInput.value = '';
+            charCount.textContent = '0 / 1000';
+
+            // Disable button
+            askButton.disabled = true;
+            askButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Thinking...';
+
+            // Show typing indicator
+            typingIndicator.classList.add('active');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        use_vision: true,
+                        top_k: 5
+                    })
+                });
+
+                const data = await response.json();
+
+                // Hide typing indicator
+                typingIndicator.classList.remove('active');
+
+                if (response.ok && data.success) {
+                    // Add assistant message with answer (use client time for accuracy)
+                    const assistantTimestamp = new Date().toLocaleTimeString('en-US', {hour12: false});
+                    addMessage('assistant', data.answer, {
+                        responseTime: data.response_time,
+                        timestamp: assistantTimestamp,  // Use client time, not server time
+                        usedVision: data.used_vision,
+                        images: data.images || [],
+                        page: data.page
+                    });
+                } else {
+                    addMessage('assistant', '❌ ' + (data.error || 'Failed to generate answer'), {
+                        isError: true
+                    });
+                }
+            } catch (error) {
+                typingIndicator.classList.remove('active');
+                addMessage('assistant', '❌ Error: ' + error.message, { isError: true });
+            }
+
+            // Re-enable button
+            askButton.disabled = false;
+            askButton.innerHTML = '<i class="fas fa-paper-plane"></i> Ask';
+            questionInput.focus();
+        }
+
+        function addMessage(type, content, meta = {}) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+
+            // Header
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'message-header';
+            headerDiv.innerHTML = type === 'user' ? '<i class="fas fa-user"></i> You' : '<i class="fas fa-robot"></i> AI Vision Assistant';
+
+            // Content
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+
+            bubbleDiv.appendChild(headerDiv);
+            bubbleDiv.appendChild(contentDiv);
+
+            // Add extracted images if present
+            if (type === 'assistant' && meta.images && meta.images.length > 0) {
+                const imagesDiv = document.createElement('div');
+                imagesDiv.className = 'extracted-images';
+                imagesDiv.innerHTML = '<div><i class="fas fa-paperclip"></i> Images from this page:</div>';
+
+                const imageGrid = document.createElement('div');
+                imageGrid.className = 'image-grid';
+
+                meta.images.forEach(imgPath => {
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.className = 'image-wrapper';
+
+                    const img = document.createElement('img');
+                    img.src = imgPath;
+                    img.alt = 'Extracted image';
+                    img.onclick = () => showFullImage(imgPath);
+
+                    imgWrapper.appendChild(img);
+                    imageGrid.appendChild(imgWrapper);
+                });
+
+                imagesDiv.appendChild(imageGrid);
+                bubbleDiv.appendChild(imagesDiv);
+            }
+
+            // Meta info for assistant messages
+            if (type === 'assistant' && meta.responseTime) {
+                const metaDiv = document.createElement('div');
+                metaDiv.className = 'message-meta';
+                metaDiv.innerHTML = `
+                    ${meta.timestamp ? `<i class="fas fa-clock"></i> ${meta.timestamp}` : ''}
+                    ${meta.responseTime ? ` | <i class="fas fa-stopwatch"></i> ${meta.responseTime}s` : ''}
+                    ${meta.usedVision ? ' | <i class="fas fa-eye"></i> Vision AI used' : ' | <i class="fas fa-font"></i> Text-only mode'}
+                    ${meta.page ? ` | <i class="fas fa-file"></i> Page ${meta.page}` : ''}
+                `;
+                bubbleDiv.appendChild(metaDiv);
+            }
+
+            // Meta info for user messages (timestamp only)
+            if (type === 'user' && meta.timestamp) {
+                const metaDiv = document.createElement('div');
+                metaDiv.className = 'message-meta';
+                metaDiv.innerHTML = `<i class="fas fa-clock"></i> ${meta.timestamp}`;
+                bubbleDiv.appendChild(metaDiv);
+            }
+
+            messageDiv.appendChild(bubbleDiv);
+            chatContainer.insertBefore(messageDiv, typingIndicator);
+
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Zoom functionality
+        let currentZoom = 1;
+        let currentX = 0;
+        let currentY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        function showFullImage(imgPath) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = imgPath;
+            modal.classList.add('active');
+            resetZoom();
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.25, 5);
+            updateZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.25, 0.5);
+            updateZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            currentX = 0;
+            currentY = 0;
+            updateZoom();
+        }
+
+        function updateZoom() {
+            const modalImg = document.getElementById('modalImage');
+            const zoomLevel = document.getElementById('zoomLevel');
+            modalImg.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentZoom})`;
+            zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+        }
+
+        // Mouse wheel zoom
+        document.getElementById('imageModal').addEventListener('wheel', (e) => {
+            if (imageModal.classList.contains('active')) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                currentZoom = Math.min(Math.max(currentZoom + delta, 0.5), 5);
+                updateZoom();
+            }
+        }, { passive: false });
+
+        // Pan functionality
+        const imageContainer = document.getElementById('imageContainer');
+        const modalImg = document.getElementById('modalImage');
+
+        imageContainer.addEventListener('mousedown', (e) => {
+            if (currentZoom > 1) {
+                isDragging = true;
+                startX = e.clientX - currentX;
+                startY = e.clientY - currentY;
+                imageContainer.classList.add('grabbing');
+            }
+        });
+
+        imageContainer.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                currentX = e.clientX - startX;
+                currentY = e.clientY - startY;
+                updateZoom();
+            }
+        });
+
+        imageContainer.addEventListener('mouseup', () => {
+            isDragging = false;
+            imageContainer.classList.remove('grabbing');
+        });
+
+        imageContainer.addEventListener('mouseleave', () => {
+            isDragging = false;
+            imageContainer.classList.remove('grabbing');
+        });
+
+        // Touch support for mobile
+        let touchStartDistance = 0;
+        let touchStartZoom = 1;
+
+        imageContainer.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+                touchStartDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                touchStartZoom = currentZoom;
+            } else if (e.touches.length === 1 && currentZoom > 1) {
+                isDragging = true;
+                startX = e.touches[0].clientX - currentX;
+                startY = e.touches[0].clientY - currentY;
+            }
+        }, { passive: false });
+
+        imageContainer.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+                const distance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                currentZoom = Math.min(Math.max(touchStartZoom * (distance / touchStartDistance), 0.5), 5);
+                updateZoom();
+            } else if (e.touches.length === 1 && isDragging) {
+                e.preventDefault();
+                currentX = e.touches[0].clientX - startX;
+                currentY = e.touches[0].clientY - startY;
+                updateZoom();
+            }
+        }, { passive: false });
+
+        imageContainer.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Close modal on background click
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                closeImageModal();
+            }
+        });
+
+        async function resetSession() {
+            if (confirm('Start a new session? This will clear the current PDF.')) {
+                try {
+                    await fetch('/reset', { method: 'POST' });
+                    window.location.href = '/';
+                } catch (error) {
+                    alert('Error resetting session: ' + error.message);
+                }
+            }
+        }
+
+        async function downloadLog() {
+            window.open('/view-log', '_blank');
+        }
+
+        function openImageModal(src) {
+            modalImage.src = src;
+            imageModal.classList.add('active');
+            resetZoom();
+        }
+
+        function closeImageModal() {
+            imageModal.classList.remove('active');
+            resetZoom();
+        }
+
+        // Keyboard shortcuts for zoom modal
+        document.addEventListener('keydown', (e) => {
+            if (imageModal.classList.contains('active')) {
+                switch(e.key) {
+                    case 'Escape':
+                        closeImageModal();
+                        break;
+                    case '+':
+                    case '=':
+                        e.preventDefault();
+                        zoomIn();
+                        break;
+                    case '-':
+                    case '_':
+                        e.preventDefault();
+                        zoomOut();
+                        break;
+                    case '0':
+                        e.preventDefault();
+                        resetZoom();
+                        break;
+                }
+            }
+        });
+
+        // Focus input on load
+        window.onload = () => {
+            questionInput.focus();
+        };
+    </script>
+</body>
+</html>
