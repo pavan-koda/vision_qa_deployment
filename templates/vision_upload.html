@@ -672,7 +672,7 @@
             uploadBtn.innerHTML = '<div class="loading"></div> Processing...';
 
             const formData = new FormData();
-            formData.append('file', file);
+            formData.append('pdf_file', file);
             formData.append('use_vision', useVision.checked);
             formData.append('retrieval_method', retrievalMethod.value);
             formData.append('top_k', topK.value);
