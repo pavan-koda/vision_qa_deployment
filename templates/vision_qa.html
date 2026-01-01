@@ -13,28 +13,34 @@
         }
 
         :root {
-            --primary-color: #6366f1;
-            --primary-dark: #4f46e5;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-400: #9ca3af;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            --border-radius-lg: 16px;
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #059669;
+            --warning: #d97706;
+            --error: #dc2626;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --surface-hover: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 8px;
+            --radius-lg: 12px;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: var(--gray-800);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
         }
 
         .container {
@@ -48,34 +54,71 @@
 
         /* Header */
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-lg);
-            padding: 1.5rem 2rem;
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
             margin-bottom: 1rem;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
         }
 
-        .header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .title-section {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 0.75rem;
         }
 
-        .header h1 i {
-            color: var(--primary-color);
+        .title-section h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
         }
 
-        .header p {
-            color: var(--gray-600);
-            font-size: 0.9rem;
+        .title-section i {
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pdf-info {
+            background: var(--surface);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .view-log-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-log-btn:hover {
+            background: var(--surface-hover);
+            border-color: var(--border-hover);
         }
 
         /* Main Content Layout */
@@ -83,18 +126,16 @@
             display: flex;
             flex: 1;
             gap: 1rem;
-            min-height: 0; /* Allow flex items to shrink */
+            min-height: 0;
         }
 
         /* Sidebar */
         .sidebar {
-            width: 320px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-lg);
+            width: 300px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
             padding: 1.5rem;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             height: fit-content;
@@ -111,30 +152,33 @@
         }
 
         .sidebar-title {
-            font-size: 1rem;
+            font-size: 0.875rem;
             font-weight: 600;
-            color: var(--gray-900);
+            color: var(--text-primary);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .sidebar-title i {
-            color: var(--primary-color);
+            color: var(--primary);
+            font-size: 0.75rem;
         }
 
         /* Document Info */
         .doc-info {
-            background: var(--gray-50);
+            background: var(--background);
             padding: 1rem;
-            border-radius: 8px;
-            border-left: 3px solid var(--primary-color);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
         }
 
         .doc-item {
             margin-bottom: 0.75rem;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
         }
 
         .doc-item:last-child {
@@ -142,69 +186,70 @@
         }
 
         .doc-label {
-            font-weight: 600;
-            color: var(--gray-700);
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
         }
 
         .doc-value {
-            color: var(--gray-600);
+            color: var(--text-primary);
+            font-weight: 500;
         }
 
         /* Images Gallery */
         .images-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 0.75rem;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.5rem;
         }
 
         .image-card {
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
             overflow: hidden;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
             cursor: pointer;
-            background: white;
+            background: var(--background);
         }
 
         .image-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px -3px rgb(0 0 0 / 0.1);
-            border-color: var(--primary-color);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
         }
 
         .image-card img {
             width: 100%;
-            height: 100px;
+            height: 80px;
             object-fit: cover;
-            background: var(--gray-50);
+            background: var(--surface);
         }
 
         .image-info {
             padding: 0.5rem;
-            background: var(--gray-50);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-align: center;
-            color: var(--gray-600);
-            border-top: 1px solid var(--gray-200);
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
         }
 
         .no-images {
             text-align: center;
-            padding: 2rem;
-            color: var(--gray-400);
-            font-style: italic;
-            font-size: 0.9rem;
+            padding: 2rem 1rem;
+            color: var(--text-muted);
+            font-style: normal;
+            font-size: 0.875rem;
         }
 
         /* Chat Area */
         .chat-area {
             flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-lg);
+            background: var(--surface);
+            border-radius: var(--radius-lg);
             padding: 1.5rem;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             height: calc(100vh - 200px);
@@ -216,84 +261,110 @@
             flex: 1;
             overflow-y: auto;
             padding: 1rem;
-            background: var(--gray-50);
-            border-radius: 8px;
+            background: var(--background);
+            border-radius: var(--radius);
             margin-bottom: 1rem;
-            border: 1px solid var(--gray-200);
+            border: 1px solid var(--border);
         }
 
         .chat-messages::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
 
         .chat-messages::-webkit-scrollbar-track {
-            background: var(--gray-100);
-            border-radius: 3px;
+            background: var(--surface);
         }
 
         .chat-messages::-webkit-scrollbar-thumb {
-            background: var(--gray-400);
-            border-radius: 3px;
+            background: var(--border);
+            border-radius: 2px;
         }
 
-        .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: var(--gray-500);
-        }
-
+        /* WhatsApp-style Chat Messages */
         .message {
-            margin-bottom: 1.5rem;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .question {
-            background: rgba(59, 130, 246, 0.1);
-            padding: 1rem 1.25rem;
-            border-radius: 12px 12px 12px 0;
-            border-left: 4px solid #3b82f6;
-        }
-
-        .question strong {
-            color: #1d4ed8;
+            margin-bottom: 1rem;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            flex-direction: column;
         }
 
-        .answer {
-            background: rgba(34, 197, 94, 0.1);
-            padding: 1rem 1.25rem;
-            border-radius: 12px 12px 0 12px;
-            border-left: 4px solid #22c55e;
-            margin-top: 0.5rem;
+        .message.user {
+            align-items: flex-end;
         }
 
-        .answer strong {
-            color: #15803d;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .message.assistant {
+            align-items: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .message.user .message-bubble {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.assistant .message-bubble {
+            background: #e3f2fd;
+            color: var(--text-primary);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-header {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .message.user .message-header {
+            text-align: right;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .message.assistant .message-header {
+            text-align: left;
+            color: var(--primary);
         }
 
         .message-content {
-            margin-top: 0.5rem;
-            line-height: 1.6;
+            line-height: 1.4;
+        }
+
+        .message-meta {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .message.user .message-meta {
+            justify-content: flex-end;
+        }
+
+        .message.assistant .message-meta {
+            justify-content: flex-start;
         }
 
         .message-time {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             opacity: 0.7;
-            margin-top: 0.5rem;
+        }
+
+        .response-time {
+            font-size: 0.75rem;
+            color: var(--success);
+            font-weight: 500;
         }
 
         /* Images in messages */
@@ -301,15 +372,29 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-top: 0.75rem;
+            margin-top: 0.5rem;
+            max-width: 70%;
+        }
+
+        .message.user .message-images {
+            justify-content: flex-end;
+        }
+
+        .message.assistant .message-images {
+            justify-content: flex-start;
         }
 
         .message-image {
-            max-width: 180px;
-            max-height: 120px;
-            border-radius: 6px;
+            max-width: 150px;
+            max-height: 100px;
+            border-radius: var(--radius);
             cursor: pointer;
-            border: 1px solid var(--gray-200);
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease;
+        }
+
+        .message-image:hover {
+            transform: scale(1.05);
         }
 
         /* Input Area */
@@ -326,28 +411,30 @@
         }
 
         .input-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--gray-700);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
             margin-bottom: 0.5rem;
         }
 
         textarea {
-            padding: 1rem;
-            border: 2px solid var(--gray-200);
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
             font-family: inherit;
             resize: vertical;
-            min-height: 60px;
-            max-height: 120px;
+            min-height: 50px;
+            max-height: 100px;
             line-height: 1.5;
+            background: var(--background);
+            color: var(--text-primary);
         }
 
         textarea:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         .options-row {
@@ -364,15 +451,15 @@
         }
 
         .option-label {
-            font-size: 0.9rem;
-            color: var(--gray-600);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
         }
 
         .switch {
             position: relative;
             display: inline-block;
-            width: 44px;
-            height: 24px;
+            width: 36px;
+            height: 20px;
         }
 
         .switch input {
@@ -388,37 +475,53 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: var(--gray-200);
+            background-color: var(--border);
             transition: .3s;
-            border-radius: 24px;
+            border-radius: 20px;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
             background-color: white;
             transition: .3s;
             border-radius: 50%;
         }
 
         input:checked + .slider {
-            background-color: var(--primary-color);
+            background-color: var(--primary);
         }
 
         input:checked + .slider:before {
-            transform: translateX(20px);
+            transform: translateX(16px);
+        }
+
+        select {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-family: inherit;
+            background: var(--background);
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
         }
 
         .btn {
-            padding: 0.875rem 1.5rem;
+            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
@@ -428,19 +531,17 @@
         }
 
         .btn-primary {
-            background: var(--primary-color);
+            background: var(--primary);
             color: white;
         }
 
         .btn-primary:hover {
             background: var(--primary-dark);
-            transform: translateY(-1px);
         }
 
         .btn-primary:disabled {
-            background: var(--gray-400);
+            background: var(--secondary);
             cursor: not-allowed;
-            transform: none;
         }
 
         /* Image Modal */
@@ -452,49 +553,162 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.9);
+            cursor: pointer;
         }
 
         .modal-content {
             margin: auto;
             display: block;
-            max-width: 90%;
-            max-height: 90%;
+            max-width: 95%;
+            max-height: 95%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            cursor: default;
         }
 
         .modal-content img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
         }
 
         .close {
             position: absolute;
-            top: 15px;
-            right: 35px;
+            top: 20px;
+            right: 30px;
             color: white;
-            font-size: 40px;
+            font-size: 35px;
             font-weight: bold;
             cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .close:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        .zoom-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            border-radius: var(--radius);
+        }
+
+        .zoom-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+        }
+
+        .zoom-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         /* Loading Animation */
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--gray-200);
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
             border-radius: 50%;
-            border-top-color: var(--primary-color);
+            border-top-color: var(--primary);
             animation: spin 1s ease-in-out infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        /* Log Modal */
+        .log-modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .log-modal-content {
+            background: var(--background);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .log-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .log-modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .log-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+        }
+
+        .log-close:hover {
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+
+        .log-content {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            background: var(--surface);
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
         }
 
         /* Responsive Design */
@@ -511,6 +725,10 @@
             .chat-area {
                 height: calc(100vh - 500px);
             }
+
+            .message-bubble {
+                max-width: 85%;
+            }
         }
 
         @media (max-width: 768px) {
@@ -518,13 +736,19 @@
                 padding: 0.5rem;
             }
 
-            .header {
-                padding: 1rem;
-                margin-bottom: 0.5rem;
+            .header-content {
+                padding: 0;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
             }
 
-            .header h1 {
-                font-size: 1.5rem;
+            .title-section h1 {
+                font-size: 1.25rem;
+            }
+
+            .header-actions {
+                justify-content: space-between;
             }
 
             .sidebar {
@@ -547,18 +771,23 @@
             }
 
             .btn {
-                padding: 0.75rem 1rem;
-                font-size: 0.9rem;
+                padding: 0.625rem 1rem;
+                font-size: 0.8125rem;
+            }
+
+            .message-bubble {
+                max-width: 90%;
             }
         }
 
         @media (max-width: 480px) {
             .message {
-                max-width: 95%;
+                margin-bottom: 0.75rem;
             }
 
-            .question, .answer {
-                padding: 0.875rem 1rem;
+            .message-bubble {
+                padding: 0.625rem 0.875rem;
+                font-size: 0.8125rem;
             }
 
             .options-row {
@@ -571,7 +800,17 @@
             }
 
             .images-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            }
+
+            .zoom-controls {
+                bottom: 10px;
+                gap: 0.5rem;
+            }
+
+            .zoom-btn {
+                font-size: 1rem;
+                padding: 0.375rem;
             }
         }
     </style>
@@ -580,11 +819,22 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>
-                <i class="fas fa-brain"></i>
-                AI Vision Assistant
-            </h1>
-            <p>Ask questions about your PDF using advanced AI vision technology</p>
+            <div class="header-content">
+                <div class="title-section">
+                    <i class="fas fa-brain"></i>
+                    <h1>AI Vision Assistant</h1>
+                </div>
+                <div class="header-actions">
+                    <div class="pdf-info" id="pdfInfo">
+                        <i class="fas fa-file-pdf"></i>
+                        <span id="pdfName">{{ metadata.filename if metadata else 'No PDF loaded' }}</span>
+                    </div>
+                    <button class="view-log-btn" onclick="openLogModal()">
+                        <i class="fas fa-file-alt"></i>
+                        View Log
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Main Content -->
@@ -594,25 +844,21 @@
                 <!-- Document Information -->
                 <div class="sidebar-section">
                     <div class="sidebar-title">
-                        <i class="fas fa-file-alt"></i>
+                        <i class="fas fa-info-circle"></i>
                         Document Info
                     </div>
                     <div class="doc-info">
                         <div class="doc-item">
-                            <span class="doc-label">File:</span>
-                            <span class="doc-value" id="doc-filename">{{ metadata.filename if metadata else 'N/A' }}</span>
+                            <div class="doc-label">Pages</div>
+                            <div class="doc-value" id="doc-pages">{{ metadata.total_pages if metadata else 'N/A' }}</div>
                         </div>
                         <div class="doc-item">
-                            <span class="doc-label">Pages:</span>
-                            <span class="doc-value" id="doc-pages">{{ metadata.total_pages if metadata else 'N/A' }}</span>
+                            <div class="doc-label">Images</div>
+                            <div class="doc-value" id="doc-images">{{ metadata.num_page_images if metadata else 'N/A' }}</div>
                         </div>
                         <div class="doc-item">
-                            <span class="doc-label">Images:</span>
-                            <span class="doc-value" id="doc-images">{{ metadata.num_page_images if metadata else 'N/A' }}</span>
-                        </div>
-                        <div class="doc-item">
-                            <span class="doc-label">Processing Time:</span>
-                            <span class="doc-value" id="doc-time">{{ metadata.processing_time if metadata else 'N/A' }}s</span>
+                            <div class="doc-label">Processing</div>
+                            <div class="doc-value" id="doc-time">{{ metadata.processing_time if metadata else 'N/A' }}s</div>
                         </div>
                     </div>
                 </div>
@@ -621,7 +867,7 @@
                 <div class="sidebar-section">
                     <div class="sidebar-title">
                         <i class="fas fa-images"></i>
-                        Document Images
+                        Images
                     </div>
                     {% if images %}
                     <div class="images-gallery">
@@ -635,7 +881,7 @@
                     {% else %}
                     <div class="no-images">
                         <i class="fas fa-image"></i>
-                        <p>No images found in document</p>
+                        <p>No images found</p>
                     </div>
                     {% endif %}
                 </div>
@@ -645,10 +891,17 @@
             <div class="chat-area">
                 <!-- Chat Messages -->
                 <div class="chat-messages" id="chatMessages">
-                    <div class="message answer">
-                        <strong><i class="fas fa-robot"></i> AI Assistant</strong>
-                        <div class="message-content">Hello! I've analyzed your PDF. Ask me any questions about the content, and I'll use both text and visual analysis to provide accurate answers.</div>
-                        <div class="message-time" id="initialTime"></div>
+                    <div class="message assistant">
+                        <div class="message-bubble">
+                            <div class="message-header">
+                                <i class="fas fa-robot"></i>
+                                AI Assistant
+                            </div>
+                            <div class="message-content">Hello! I've analyzed your PDF. Ask me any questions about the content, and I'll use both text and visual analysis to provide accurate answers.</div>
+                        </div>
+                        <div class="message-meta">
+                            <div class="message-time" id="initialTime"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -665,7 +918,7 @@
                             </div>
                             <div class="option-group">
                                 <span class="option-label">Top K:</span>
-                                <select id="topK" style="padding: 0.25rem 0.5rem; border: 1px solid var(--gray-200); border-radius: 4px; font-size: 0.9rem;">
+                                <select id="topK">
                                     <option value="3">3</option>
                                     <option value="5" selected>5</option>
                                     <option value="10">10</option>
@@ -688,9 +941,31 @@
     </div>
 
     <!-- Image Modal -->
-    <div id="imageModal" class="modal">
+    <div id="imageModal" class="modal" onclick="closeModal()">
         <span class="close" onclick="closeModal()">&times;</span>
+        <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomImage(-0.1)" title="Zoom Out">
+                <i class="fas fa-search-minus"></i>
+            </button>
+            <button class="zoom-btn" onclick="resetZoom()" title="Reset Zoom">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="zoom-btn" onclick="zoomImage(0.1)" title="Zoom In">
+                <i class="fas fa-search-plus"></i>
+            </button>
+        </div>
         <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- Log Modal -->
+    <div id="logModal" class="log-modal">
+        <div class="log-modal-content">
+            <div class="log-modal-header">
+                <h3 class="log-modal-title">Application Logs</h3>
+                <button class="log-close" onclick="closeLogModal()">&times;</button>
+            </div>
+            <div class="log-content" id="logContent">Loading logs...</div>
+        </div>
     </div>
 
     <script>
@@ -702,7 +977,14 @@
         const topK = document.getElementById('topK');
         const imageModal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
+        const logModal = document.getElementById('logModal');
+        const logContent = document.getElementById('logContent');
         const initialTime = document.getElementById('initialTime');
+
+        // Image zoom variables
+        let currentZoom = 1;
+        const minZoom = 0.5;
+        const maxZoom = 3;
 
         // Set initial timestamp
         initialTime.textContent = new Date().toLocaleTimeString();
@@ -710,6 +992,8 @@
         // Image modal functions
         function openModal(imageSrc) {
             modalImage.src = imageSrc;
+            currentZoom = 1;
+            modalImage.style.transform = `scale(${currentZoom})`;
             imageModal.style.display = 'block';
         }
 
@@ -717,23 +1001,60 @@
             imageModal.style.display = 'none';
         }
 
-        // Close modal when clicking outside
+        function zoomImage(delta) {
+            currentZoom = Math.max(minZoom, Math.min(maxZoom, currentZoom + delta));
+            modalImage.style.transform = `scale(${currentZoom})`;
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            modalImage.style.transform = `scale(${currentZoom})`;
+        }
+
+        // Log modal functions
+        async function openLogModal() {
+            logModal.style.display = 'block';
+            logContent.textContent = 'Loading logs...';
+
+            try {
+                const response = await fetch('/logs');
+                if (response.ok) {
+                    const logs = await response.text();
+                    logContent.textContent = logs;
+                } else {
+                    logContent.textContent = 'Failed to load logs.';
+                }
+            } catch (error) {
+                logContent.textContent = 'Error loading logs: ' + error.message;
+            }
+        }
+
+        function closeLogModal() {
+            logModal.style.display = 'none';
+        }
+
+        // Close modals when clicking outside
         window.onclick = function(event) {
             if (event.target == imageModal) {
                 closeModal();
+            }
+            if (event.target == logModal) {
+                closeLogModal();
             }
         }
 
         // Auto-resize textarea
         questionInput.addEventListener('input', function() {
             this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
         });
 
         // Ask question function
         async function askQuestion() {
             const question = questionInput.value.trim();
             if (!question) return;
+
+            const startTime = Date.now();
 
             // Add user message
             addMessage('question', question);
@@ -756,16 +1077,21 @@
                     })
                 });
 
+                const endTime = Date.now();
+                const responseTime = ((endTime - startTime) / 1000).toFixed(2);
+
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    addMessage('answer', data.answer, data.images, data.page);
+                    addMessage('answer', data.answer, data.images, data.page, responseTime);
                 } else {
-                    addMessage('answer', `Error: ${data.error || 'Unknown error occurred'}`);
+                    addMessage('answer', `Error: ${data.error || 'Unknown error occurred'}`, [], null, responseTime);
                 }
             } catch (error) {
                 console.error('Error:', error);
-                addMessage('answer', 'Error: Failed to get response from server');
+                const endTime = Date.now();
+                const responseTime = ((endTime - startTime) / 1000).toFixed(2);
+                addMessage('answer', 'Error: Failed to get response from server', [], null, responseTime);
             }
 
             // Re-enable input
@@ -777,40 +1103,25 @@
             questionInput.focus();
         }
 
-        // Add message to chat
-        function addMessage(type, content, images = [], page = null) {
+        // Add message to chat (WhatsApp style)
+        function addMessage(type, content, images = [], page = null, responseTime = null) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = 'message';
+            messageDiv.className = `message ${type === 'question' ? 'user' : 'assistant'}`;
 
-            const strongDiv = document.createElement('strong');
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+
             if (type === 'question') {
-                strongDiv.innerHTML = '<i class="fas fa-user"></i> You';
-                messageDiv.classList.add('question');
+                bubbleDiv.innerHTML = `
+                    <div class="message-content">${content.replace(/\n/g, '<br>')}</div>
+                `;
             } else {
-                strongDiv.innerHTML = '<i class="fas fa-robot"></i> AI Assistant';
-                messageDiv.classList.add('answer');
+                bubbleDiv.innerHTML = `
+                    <div class="message-content">${content.replace(/\n/g, '<br>')}</div>
+                `;
             }
 
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.innerHTML = content.replace(/\n/g, '<br>');
-
-            const timeDiv = document.createElement('div');
-            timeDiv.className = 'message-time';
-            timeDiv.textContent = new Date().toLocaleTimeString();
-
-            messageDiv.appendChild(strongDiv);
-            messageDiv.appendChild(contentDiv);
-
-            // Add page info if available
-            if (page) {
-                const pageDiv = document.createElement('div');
-                pageDiv.className = 'message-time';
-                pageDiv.textContent += ` • Page ${page}`;
-                messageDiv.appendChild(pageDiv);
-            } else {
-                messageDiv.appendChild(timeDiv);
-            }
+            messageDiv.appendChild(bubbleDiv);
 
             // Add images if available
             if (images && images.length > 0) {
@@ -828,6 +1139,31 @@
                 messageDiv.appendChild(imagesDiv);
             }
 
+            // Add meta information (time, response time, page)
+            const metaDiv = document.createElement('div');
+            metaDiv.className = 'message-meta';
+
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            timeDiv.textContent = new Date().toLocaleTimeString();
+            metaDiv.appendChild(timeDiv);
+
+            if (responseTime && type === 'answer') {
+                const responseTimeDiv = document.createElement('div');
+                responseTimeDiv.className = 'response-time';
+                responseTimeDiv.textContent = `${responseTime}s`;
+                metaDiv.appendChild(responseTimeDiv);
+            }
+
+            if (page && type === 'answer') {
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'message-time';
+                pageDiv.textContent = `Page ${page}`;
+                metaDiv.appendChild(pageDiv);
+            }
+
+            messageDiv.appendChild(metaDiv);
+
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
@@ -838,6 +1174,27 @@
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 askQuestion();
+            }
+        });
+
+        // Keyboard shortcuts for image zoom
+        document.addEventListener('keydown', function(e) {
+            if (imageModal.style.display === 'block') {
+                if (e.key === '+' || e.key === '=') {
+                    e.preventDefault();
+                    zoomImage(0.1);
+                } else if (e.key === '-') {
+                    e.preventDefault();
+                    zoomImage(-0.1);
+                } else if (e.key === '0') {
+                    e.preventDefault();
+                    resetZoom();
+                } else if (e.key === 'Escape') {
+                    closeModal();
+                }
+            }
+            if (logModal.style.display === 'block' && e.key === 'Escape') {
+                closeLogModal();
             }
         });
 
