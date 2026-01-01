@@ -294,7 +294,8 @@ def ask_question():
             # Don't send server timestamp - frontend will use client time
             'used_vision': use_vision,
             'images': images,  # Return extracted images
-            'page': page_used
+            'page': page_used,
+            'score': score  # Add score to response
         }), 200
 
     except Exception as e:
@@ -361,7 +362,7 @@ def view_log():
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Performance Analytics - AI PDF Assistant</title>
+                <title>Performance Analytics - TMI AI Assistant</title>
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
                 <style>
                     * {{
@@ -478,7 +479,7 @@ def view_log():
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Performance Analytics - AI PDF Assistant</title>
+            <title>Performance Analytics - TMI AI Assistant</title>
             <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
             <style>
                 * {{
@@ -739,6 +740,32 @@ def view_log():
                     </div>
                 </div>
 
+                <div class="log-container" style="margin-bottom: 2rem;">
+                    <div class="log-header">
+                        <div class="log-title">
+                            <i class="fas fa-file-pdf"></i>
+                            Processed PDFs
+                        </div>
+                        <div class="log-actions">
+                            <button class="btn btn-secondary" onclick="location.reload()">
+                                <i class="fas fa-sync"></i>
+                                Refresh
+                            </button>
+                            <a href="/" class="btn btn-primary" style="text-decoration: none;">
+                                <i class="fas fa-upload"></i>
+                                Upload New PDF
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="pdf-list" style="padding: 1rem;">
+                        <div style="text-align: center; padding: 2rem; color: var(--gray-600);">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>
+                            <p style="margin-top: 1rem;">Loading PDFs...</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="log-container">
                     <div class="log-header">
                         <div class="log-title">
@@ -793,6 +820,80 @@ def view_log():
                     document.body.removeChild(a);
                     window.URL.revokeObjectURL(url);
                 }}
+
+                // Load PDFs
+                async function loadPDFs() {{
+                    try {{
+                        const response = await fetch('/api/pdfs');
+                        const data = await response.json();
+                        const pdfList = document.getElementById('pdf-list');
+
+                        if (data.pdfs && data.pdfs.length > 0) {{
+                            let html = '<div style="display: grid; gap: 1rem;">';
+
+                            data.pdfs.forEach(pdf => {{
+                                const uploadDate = new Date(pdf.upload_time * 1000).toLocaleString();
+                                html += `
+                                    <div style="background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 12px; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; color: var(--gray-900); margin-bottom: 0.25rem;">
+                                                <i class="fas fa-file-pdf" style="color: var(--primary-color);"></i>
+                                                ${{pdf.filename}}
+                                            </div>
+                                            <div style="font-size: 0.875rem; color: var(--gray-600);">
+                                                <span><i class="fas fa-file"></i> ${{pdf.pages}} pages</span> •
+                                                <span><i class="fas fa-hdd"></i> ${{pdf.file_size}} MB</span> •
+                                                <span><i class="fas fa-clock"></i> ${{uploadDate}}</span>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button onclick="deletePDF('${{pdf.session_id}}', '${{pdf.filename}}')" class="btn btn-secondary" style="background: #dc2626; color: white; padding: 0.5rem 1rem;">
+                                                <i class="fas fa-trash"></i>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                `;
+                            }});
+
+                            html += '</div>';
+                            pdfList.innerHTML = html;
+                        }} else {{
+                            pdfList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-400);"><i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i><p>No PDFs found</p></div>';
+                        }}
+                    }} catch (error) {{
+                        console.error('Error loading PDFs:', error);
+                        document.getElementById('pdf-list').innerHTML = '<div style="text-align: center; padding: 2rem; color: #dc2626;"><p>Error loading PDFs</p></div>';
+                    }}
+                }}
+
+                // Delete PDF
+                async function deletePDF(sessionId, filename) {{
+                    if (!confirm(`Are you sure you want to delete "${{filename}}"? This action cannot be undone.`)) {{
+                        return;
+                    }}
+
+                    try {{
+                        const response = await fetch(`/api/pdfs/${{sessionId}}`, {{
+                            method: 'DELETE'
+                        }});
+
+                        const data = await response.json();
+
+                        if (response.ok) {{
+                            alert('PDF deleted successfully');
+                            loadPDFs(); // Reload the list
+                        }} else {{
+                            alert(`Error: ${{data.error || 'Failed to delete PDF'}}`);
+                        }}
+                    }} catch (error) {{
+                        console.error('Error deleting PDF:', error);
+                        alert('Error deleting PDF');
+                    }}
+                }}
+
+                // Load PDFs on page load
+                loadPDFs();
 
                 // Auto-refresh every 30 seconds
                 setInterval(() => {{
@@ -866,6 +967,76 @@ def get_logs():
     except Exception as e:
         logger.error(f"Error reading logs: {str(e)}")
         return f"Error reading logs: {str(e)}", 500
+
+
+@app.route('/api/pdfs', methods=['GET'])
+def list_pdfs():
+    """List all processed PDFs."""
+    try:
+        processed_dir = Path('processed_pdfs')
+        uploads_dir = Path(app.config['UPLOAD_FOLDER'])
+
+        if not processed_dir.exists():
+            return jsonify({'pdfs': []}), 200
+
+        pdfs = []
+        for session_dir in processed_dir.iterdir():
+            if session_dir.is_dir():
+                session_id = session_dir.name
+
+                # Find the original PDF file
+                pdf_files = list(uploads_dir.glob(f"{session_id}_*"))
+                if pdf_files:
+                    pdf_file = pdf_files[0]
+                    filename = pdf_file.name.replace(f"{session_id}_", "")
+                    file_size = pdf_file.stat().st_size / (1024 * 1024)  # MB
+                    upload_time = pdf_file.stat().st_mtime
+
+                    # Count pages (number of page images)
+                    page_count = len(list(session_dir.glob("page_*.png")))
+
+                    pdfs.append({
+                        'session_id': session_id,
+                        'filename': filename,
+                        'file_size': round(file_size, 2),
+                        'pages': page_count,
+                        'upload_time': upload_time
+                    })
+
+        # Sort by upload time (newest first)
+        pdfs.sort(key=lambda x: x['upload_time'], reverse=True)
+
+        return jsonify({'pdfs': pdfs}), 200
+
+    except Exception as e:
+        logger.error(f"Error listing PDFs: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/pdfs/<session_id>', methods=['DELETE'])
+def delete_pdf(session_id):
+    """Delete a processed PDF and its data."""
+    try:
+        # Clean up ChromaDB collection
+        if qa_engine:
+            qa_engine.cleanup_session(session_id)
+
+        # Clean up files
+        upload_dir = Path(app.config['UPLOAD_FOLDER'])
+        for file in upload_dir.glob(f"{session_id}_*"):
+            file.unlink()
+
+        # Clean up processed PDFs
+        processed_dir = Path('processed_pdfs') / session_id
+        if processed_dir.exists():
+            import shutil
+            shutil.rmtree(processed_dir)
+
+        return jsonify({'success': True, 'message': 'PDF deleted successfully'}), 200
+
+    except Exception as e:
+        logger.error(f"Error deleting PDF: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':

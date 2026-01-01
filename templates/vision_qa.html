@@ -37,36 +37,38 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--background);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 2rem 1rem;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         /* Header */
         .header {
-            background: var(--background);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 0;
-            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .title-section {
@@ -76,15 +78,15 @@
         }
 
         .title-section h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
             margin: 0;
         }
 
         .title-section i {
+            font-size: 2rem;
             color: var(--primary);
-            font-size: 1.25rem;
         }
 
         .header-actions {
@@ -100,6 +102,71 @@
             font-size: 0.875rem;
             color: var(--text-secondary);
             border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .info-icon {
+            color: var(--primary);
+            cursor: help;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text-primary);
+            color: white;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--text-primary);
+        }
+
+        .info-icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .tooltip-label {
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .tooltip-value {
+            font-weight: 600;
         }
 
         .view-log-btn {
@@ -125,134 +192,21 @@
         .main-content {
             display: flex;
             flex: 1;
-            gap: 1rem;
             min-height: 0;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 300px;
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            height: fit-content;
-            max-height: calc(100vh - 200px);
-            overflow-y: auto;
-        }
-
-        .sidebar-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .sidebar-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .sidebar-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .sidebar-title i {
-            color: var(--primary);
-            font-size: 0.75rem;
-        }
-
-        /* Document Info */
-        .doc-info {
-            background: var(--background);
-            padding: 1rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-        }
-
-        .doc-item {
-            margin-bottom: 0.75rem;
-            font-size: 0.875rem;
-        }
-
-        .doc-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .doc-label {
-            font-weight: 500;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.25rem;
-        }
-
-        .doc-value {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        /* Images Gallery */
-        .images-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 0.5rem;
-        }
-
-        .image-card {
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            background: var(--background);
-        }
-
-        .image-card:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-        }
-
-        .image-card img {
-            width: 100%;
-            height: 80px;
-            object-fit: cover;
-            background: var(--surface);
-        }
-
-        .image-info {
-            padding: 0.5rem;
-            font-size: 0.75rem;
-            text-align: center;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-        }
-
-        .no-images {
-            text-align: center;
-            padding: 2rem 1rem;
-            color: var(--text-muted);
-            font-style: normal;
-            font-size: 0.875rem;
         }
 
         /* Chat Area */
         .chat-area {
             flex: 1;
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 200px);
             min-height: 500px;
         }
 
@@ -367,6 +321,15 @@
             font-weight: 500;
         }
 
+        .message-score {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
         /* Images in messages */
         .message-images {
             display: flex;
@@ -399,6 +362,12 @@
 
         /* Input Area */
         .input-area {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             gap: 1rem;
             align-items: flex-end;
@@ -418,33 +387,34 @@
         }
 
         textarea {
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 0.875rem;
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
             font-family: inherit;
             resize: vertical;
-            min-height: 50px;
-            max-height: 100px;
-            line-height: 1.5;
-            background: var(--background);
+            min-height: 80px;
+            transition: all 0.3s;
+            background: var(--gray-50);
             color: var(--text-primary);
         }
 
         textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: white;
         }
 
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: var(--radius);
-            font-size: 0.875rem;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -452,17 +422,19 @@
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
         }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
         }
 
         .btn-primary:disabled {
-            background: var(--secondary);
+            background: var(--gray-400);
             cursor: not-allowed;
+            transform: none;
         }
 
         /* Image Modal */
@@ -483,21 +455,25 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 90vw;
-            max-height: 90vh;
+            width: 90vw;
+            height: 90vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
         .modal-content img {
+            width: auto;
+            height: auto;
             max-width: 100%;
-            max-height: 90vh;
+            max-height: 100%;
             object-fit: contain;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
             transform-origin: center center;
-            transition: transform 0.2s ease;
+            transition: transform 0.3s ease;
+            cursor: move;
         }
 
         .close {
@@ -668,6 +644,24 @@
                     <div class="pdf-info" id="pdfInfo">
                         <i class="fas fa-file-pdf"></i>
                         <span id="pdfName">{{ metadata.filename if metadata else 'No PDF loaded' }}</span>
+                        <i class="fas fa-info-circle info-icon">
+                            <div class="tooltip">
+                                <div class="tooltip-content">
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-label">Pages:</span>
+                                        <span class="tooltip-value" id="tooltip-pages">{{ metadata.total_pages if metadata else 'N/A' }}</span>
+                                    </div>
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-label">Images:</span>
+                                        <span class="tooltip-value" id="tooltip-images">{{ metadata.num_page_images if metadata else 'N/A' }}</span>
+                                    </div>
+                                    <div class="tooltip-row">
+                                        <span class="tooltip-label">Processing:</span>
+                                        <span class="tooltip-value" id="tooltip-time">{{ metadata.processing_time if metadata else 'N/A' }}s</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </i>
                     </div>
                     <button class="view-log-btn" onclick="window.open('/view-log', '_blank')">
                         <i class="fas fa-chart-line"></i>
@@ -679,54 +673,6 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Document Information -->
-                <div class="sidebar-section">
-                    <div class="sidebar-title">
-                        <i class="fas fa-info-circle"></i>
-                        Document Info
-                    </div>
-                    <div class="doc-info">
-                        <div class="doc-item">
-                            <div class="doc-label">Pages</div>
-                            <div class="doc-value" id="doc-pages">{{ metadata.total_pages if metadata else 'N/A' }}</div>
-                        </div>
-                        <div class="doc-item">
-                            <div class="doc-label">Images</div>
-                            <div class="doc-value" id="doc-images">{{ metadata.num_page_images if metadata else 'N/A' }}</div>
-                        </div>
-                        <div class="doc-item">
-                            <div class="doc-label">Processing</div>
-                            <div class="doc-value" id="doc-time">{{ metadata.processing_time if metadata else 'N/A' }}s</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Images Section -->
-                <div class="sidebar-section">
-                    <div class="sidebar-title">
-                        <i class="fas fa-images"></i>
-                        Images
-                    </div>
-                    {% if images %}
-                    <div class="images-gallery">
-                        {% for image in images %}
-                        <div class="image-card" onclick="openModal('{{ image }}')">
-                            <img src="{{ image }}" alt="Document image">
-                            <div class="image-info">Page {{ loop.index }}</div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    <div class="no-images">
-                        <i class="fas fa-image"></i>
-                        <p>No images found</p>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-
             <!-- Chat Area -->
             <div class="chat-area">
                 <!-- Chat Messages -->
@@ -794,7 +740,9 @@
         // Image zoom variables
         let currentZoom = 1;
         const minZoom = 0.5;
-        const maxZoom = 3;
+        const maxZoom = 5;
+        let isPanning = false;
+        let startX, startY, translateX = 0, translateY = 0;
 
         // Set initial timestamp
         initialTime.textContent = new Date().toLocaleTimeString();
@@ -803,7 +751,9 @@
         function openModal(imageSrc) {
             modalImage.src = imageSrc;
             currentZoom = 1;
-            modalImage.style.transform = `scale(${currentZoom})`;
+            translateX = 0;
+            translateY = 0;
+            updateImageTransform();
             imageModal.style.display = 'block';
             // Prevent body scroll when modal is open
             document.body.style.overflow = 'hidden';
@@ -815,16 +765,56 @@
         }
 
         function zoomImage(delta) {
-            event.stopPropagation();
+            if (event) event.stopPropagation();
             currentZoom = Math.max(minZoom, Math.min(maxZoom, currentZoom + delta));
-            modalImage.style.transform = `scale(${currentZoom})`;
+            updateImageTransform();
         }
 
         function resetZoom() {
-            event.stopPropagation();
+            if (event) event.stopPropagation();
             currentZoom = 1;
-            modalImage.style.transform = `scale(${currentZoom})`;
+            translateX = 0;
+            translateY = 0;
+            updateImageTransform();
         }
+
+        function updateImageTransform() {
+            modalImage.style.transform = `scale(${currentZoom}) translate(${translateX}px, ${translateY}px)`;
+        }
+
+        // Mouse wheel zoom
+        modalImage.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const delta = e.deltaY > 0 ? -0.1 : 0.1;
+            zoomImage(delta);
+        });
+
+        // Pan functionality
+        modalImage.addEventListener('mousedown', function(e) {
+            if (currentZoom > 1) {
+                isPanning = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                modalImage.style.cursor = 'grabbing';
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (isPanning) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateImageTransform();
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isPanning) {
+                isPanning = false;
+                modalImage.style.cursor = 'move';
+            }
+        });
 
         // Close modals when clicking outside
         window.onclick = function(event) {
@@ -873,15 +863,15 @@
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    addMessage('answer', data.answer, data.images, data.page, responseTime);
+                    addMessage('answer', data.answer, data.images, data.page, responseTime, data.score);
                 } else {
-                    addMessage('answer', `Error: ${data.error || 'Unknown error occurred'}`, [], null, responseTime);
+                    addMessage('answer', `Error: ${data.error || 'Unknown error occurred'}`, [], null, responseTime, null);
                 }
             } catch (error) {
                 console.error('Error:', error);
                 const endTime = Date.now();
                 const responseTime = ((endTime - startTime) / 1000).toFixed(2);
-                addMessage('answer', 'Error: Failed to get response from server', [], null, responseTime);
+                addMessage('answer', 'Error: Failed to get response from server', [], null, responseTime, null);
             }
 
             // Re-enable input
@@ -894,7 +884,7 @@
         }
 
         // Add message to chat (WhatsApp style)
-        function addMessage(type, content, images = [], page = null, responseTime = null) {
+        function addMessage(type, content, images = [], page = null, responseTime = null, score = null) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type === 'question' ? 'user' : 'assistant'}`;
 
@@ -943,6 +933,13 @@
                 responseTimeDiv.className = 'response-time';
                 responseTimeDiv.textContent = `${responseTime}s`;
                 metaDiv.appendChild(responseTimeDiv);
+            }
+
+            if (score !== null && score !== undefined && type === 'answer') {
+                const scoreDiv = document.createElement('div');
+                scoreDiv.className = 'message-score';
+                scoreDiv.innerHTML = `<i class="fas fa-star"></i> ${(score * 100).toFixed(1)}%`;
+                metaDiv.appendChild(scoreDiv);
             }
 
             if (page && type === 'answer') {
