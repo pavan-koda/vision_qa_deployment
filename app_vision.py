@@ -846,6 +846,28 @@ def serve_page_image(session_id, filename):
         return jsonify({'error': f'Error serving page image: {str(e)}'}), 500
 
 
+@app.route('/logs', methods=['GET'])
+def get_logs():
+    """Get application logs for the modal."""
+    try:
+        log_file = Path('logs') / 'vision_performance.txt'
+
+        if not log_file.exists():
+            return "No log file found. Logs will be created after processing PDFs.", 200
+
+        with open(log_file, 'r', encoding='utf-8') as f:
+            logs = f.read()
+
+        if not logs.strip():
+            return "Log file is empty. No performance data recorded yet.", 200
+
+        return logs, 200
+
+    except Exception as e:
+        logger.error(f"Error reading logs: {str(e)}")
+        return f"Error reading logs: {str(e)}", 500
+
+
 if __name__ == '__main__':
     # Check if Ollama is available
     if qa_engine and qa_engine._check_ollama_connection():
