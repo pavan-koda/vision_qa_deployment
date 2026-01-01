@@ -51,7 +51,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 
-def log_performance(session_id, question, answer, response_time, page_info):
+def log_performance(session_id, question, answer, response_time, page_info, accuracy=0.0):
     """Log performance metrics with latest entries on top - simplified format."""
     log_file = Path('logs') / 'vision_performance.txt'
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -64,6 +64,7 @@ Session ID: {session_id}
 Question: {question}
 Response Time: {response_time:.3f} seconds
 Pages Used: {page_info}
+Accuracy Score: {accuracy:.3f}
 Answer Length: {len(answer)} characters
 {'='*80}
 
@@ -252,17 +253,19 @@ def ask_question():
             answer = result.get('answer', '')
             images = result.get('images', [])
             page_used = result.get('page', None)
+            score = result.get('score', 0.0)
         else:
             answer = result
             images = []
             page_used = None
+            score = 0.0
 
         if not answer:
             return jsonify({'error': 'Could not generate an answer. Please try rephrasing your question.'}), 500
 
         # Log performance
         page_info = f"Page {page_used}" if page_used else f"Top {top_k} pages"
-        log_performance(session_id, question, answer, response_time, page_info)
+        log_performance(session_id, question, answer, response_time, page_info, score)
 
         # Add to conversation history (limit to last 5 exchanges)
         current_timestamp = datetime.now().strftime('%H:%M:%S')
@@ -343,25 +346,44 @@ def health_check():
     return jsonify(health_status), 200
 
 
-@app.route('/download-log', methods=['GET'])
-def download_log():
-    """Download performance log."""
+@app.route('/view-log', methods=['GET'])
+def view_log():
+    """View performance log in browser."""
     try:
         log_file = Path('logs') / 'vision_performance.txt'
 
         if not log_file.exists():
-            return jsonify({'error': 'No performance log found'}), 404
+            return "<h2>No performance log found</h2><p>Upload a PDF and ask questions to generate logs.</p>"
 
-        return send_file(
-            log_file,
-            as_attachment=True,
-            download_name=f"vision_performance_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
-            mimetype='text/plain'
-        )
+        with open(log_file, 'r', encoding='utf-8') as f:
+            log_content = f.read()
+
+        # Return as HTML with preformatted text
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Performance Log</title>
+            <style>
+                body {{ font-family: monospace; margin: 20px; }}
+                pre {{ white-space: pre-wrap; word-wrap: break-word; }}
+                h1 {{ color: #333; }}
+            </style>
+        </head>
+        <body>
+            <h1>Performance Log</h1>
+            <pre>{log_content}</pre>
+            <br>
+            <a href="/">← Back to App</a>
+        </body>
+        </html>
+        """
+
+        return html_content
 
     except Exception as e:
-        logger.error(f"Error downloading log: {str(e)}")
-        return jsonify({'error': f'Error downloading log: {str(e)}'}), 500
+        logger.error(f"Error viewing log: {str(e)}")
+        return f"<h2>Error viewing log: {str(e)}</h2>"
 
 
 @app.route('/data/<session_id>/embedded_images/<filename>')

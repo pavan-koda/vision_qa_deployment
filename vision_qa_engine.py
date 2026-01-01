@@ -414,7 +414,7 @@ Answer:"""
                 final_answer = answer if answer else "I couldn't generate an answer."
 
                 if return_images:
-                    return {'answer': final_answer, 'images': extracted_images, 'page': int(page_num)}
+                    return {'answer': final_answer, 'images': extracted_images, 'page': int(page_num), 'score': best_page['score']}
                 return final_answer
 
             elif asks_about_visuals and use_vision:
@@ -431,7 +431,7 @@ Answer:"""
                 final_answer = answer if answer else "I couldn't generate an answer."
 
                 if return_images:
-                    return {'answer': final_answer, 'images': extracted_images, 'page': int(page_num)}
+                    return {'answer': final_answer, 'images': extracted_images, 'page': int(page_num), 'score': best_page['score']}
                 return final_answer
 
             else:
@@ -442,7 +442,7 @@ Answer:"""
                 final_answer = self._text_only_answer(question, context, history_to_use)
 
                 if return_images:
-                    return {'answer': final_answer, 'images': extracted_images, 'page': int(page_num)}
+                    return {'answer': final_answer, 'images': extracted_images, 'page': int(page_num), 'score': best_page['score']}
                 return final_answer
 
         except Exception as e:
