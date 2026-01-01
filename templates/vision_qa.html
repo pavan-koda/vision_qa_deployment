@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Vision Assistant - Ask Questions</title>
+    <title>TMI AI Assistant</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -437,85 +437,6 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .options-row {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .option-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .option-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 36px;
-            height: 20px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--border);
-            transition: .3s;
-            border-radius: 20px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--primary);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(16px);
-        }
-
-        select {
-            padding: 0.5rem 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 0.875rem;
-            font-family: inherit;
-            background: var(--background);
-            color: var(--text-primary);
-            cursor: pointer;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -558,23 +479,25 @@
         }
 
         .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 95%;
-            max-height: 95%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            cursor: default;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-content img {
             max-width: 100%;
-            max-height: 100%;
+            max-height: 90vh;
             object-fit: contain;
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
+            transform-origin: center center;
+            transition: transform 0.2s ease;
         }
 
         .close {
@@ -642,75 +565,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Log Modal */
-        .log-modal {
-            display: none;
-            position: fixed;
-            z-index: 1001;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .log-modal-content {
-            background: var(--background);
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border);
-            width: 90%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .log-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .log-modal-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .log-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            padding: 0.5rem;
-            border-radius: var(--radius);
-            transition: all 0.2s ease;
-        }
-
-        .log-close:hover {
-            background: var(--surface);
-            color: var(--text-primary);
-        }
-
-        .log-content {
-            font-family: 'Courier New', monospace;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            background: var(--surface);
-            padding: 1rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            white-space: pre-wrap;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
         /* Responsive Design */
         @media (max-width: 1024px) {
             .main-content {
@@ -765,11 +619,6 @@
                 gap: 0.5rem;
             }
 
-            .options-row {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-
             .btn {
                 padding: 0.625rem 1rem;
                 font-size: 0.8125rem;
@@ -788,15 +637,6 @@
             .message-bubble {
                 padding: 0.625rem 0.875rem;
                 font-size: 0.8125rem;
-            }
-
-            .options-row {
-                justify-content: space-between;
-            }
-
-            .option-group {
-                flex: 1;
-                justify-content: center;
             }
 
             .images-gallery {
@@ -822,16 +662,16 @@
             <div class="header-content">
                 <div class="title-section">
                     <i class="fas fa-brain"></i>
-                    <h1>AI Vision Assistant</h1>
+                    <h1>TMI AI Assistant</h1>
                 </div>
                 <div class="header-actions">
                     <div class="pdf-info" id="pdfInfo">
                         <i class="fas fa-file-pdf"></i>
                         <span id="pdfName">{{ metadata.filename if metadata else 'No PDF loaded' }}</span>
                     </div>
-                    <button class="view-log-btn" onclick="openLogModal()">
-                        <i class="fas fa-file-alt"></i>
-                        View Log
+                    <button class="view-log-btn" onclick="window.open('/view-log', '_blank')">
+                        <i class="fas fa-chart-line"></i>
+                        View Analytics
                     </button>
                 </div>
             </div>
@@ -895,7 +735,7 @@
                         <div class="message-bubble">
                             <div class="message-header">
                                 <i class="fas fa-robot"></i>
-                                AI Assistant
+                                TMI AI Assistant
                             </div>
                             <div class="message-content">Hello! I've analyzed your PDF. Ask me any questions about the content, and I'll use both text and visual analysis to provide accurate answers.</div>
                         </div>
@@ -908,23 +748,6 @@
                 <!-- Input Area -->
                 <div class="input-area">
                     <div class="input-group">
-                        <div class="options-row">
-                            <div class="option-group">
-                                <span class="option-label">Vision:</span>
-                                <label class="switch">
-                                    <input type="checkbox" id="useVision" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <div class="option-group">
-                                <span class="option-label">Top K:</span>
-                                <select id="topK">
-                                    <option value="3">3</option>
-                                    <option value="5" selected>5</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </div>
-                        </div>
                         <textarea
                             id="questionInput"
                             placeholder="Ask a question about your PDF..."
@@ -943,7 +766,7 @@
     <!-- Image Modal -->
     <div id="imageModal" class="modal" onclick="closeModal()">
         <span class="close" onclick="closeModal()">&times;</span>
-        <div class="zoom-controls">
+        <div class="zoom-controls" onclick="event.stopPropagation()">
             <button class="zoom-btn" onclick="zoomImage(-0.1)" title="Zoom Out">
                 <i class="fas fa-search-minus"></i>
             </button>
@@ -954,17 +777,8 @@
                 <i class="fas fa-search-plus"></i>
             </button>
         </div>
-        <img class="modal-content" id="modalImage">
-    </div>
-
-    <!-- Log Modal -->
-    <div id="logModal" class="log-modal">
-        <div class="log-modal-content">
-            <div class="log-modal-header">
-                <h3 class="log-modal-title">Application Logs</h3>
-                <button class="log-close" onclick="closeLogModal()">&times;</button>
-            </div>
-            <div class="log-content" id="logContent">Loading logs...</div>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modalImage">
         </div>
     </div>
 
@@ -973,12 +787,8 @@
         const chatMessages = document.getElementById('chatMessages');
         const questionInput = document.getElementById('questionInput');
         const askBtn = document.getElementById('askBtn');
-        const useVision = document.getElementById('useVision');
-        const topK = document.getElementById('topK');
         const imageModal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
-        const logModal = document.getElementById('logModal');
-        const logContent = document.getElementById('logContent');
         const initialTime = document.getElementById('initialTime');
 
         // Image zoom variables
@@ -995,51 +805,31 @@
             currentZoom = 1;
             modalImage.style.transform = `scale(${currentZoom})`;
             imageModal.style.display = 'block';
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             imageModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         function zoomImage(delta) {
+            event.stopPropagation();
             currentZoom = Math.max(minZoom, Math.min(maxZoom, currentZoom + delta));
             modalImage.style.transform = `scale(${currentZoom})`;
         }
 
         function resetZoom() {
+            event.stopPropagation();
             currentZoom = 1;
             modalImage.style.transform = `scale(${currentZoom})`;
-        }
-
-        // Log modal functions
-        async function openLogModal() {
-            logModal.style.display = 'block';
-            logContent.textContent = 'Loading logs...';
-
-            try {
-                const response = await fetch('/logs');
-                if (response.ok) {
-                    const logs = await response.text();
-                    logContent.textContent = logs;
-                } else {
-                    logContent.textContent = 'Failed to load logs.';
-                }
-            } catch (error) {
-                logContent.textContent = 'Error loading logs: ' + error.message;
-            }
-        }
-
-        function closeLogModal() {
-            logModal.style.display = 'none';
         }
 
         // Close modals when clicking outside
         window.onclick = function(event) {
             if (event.target == imageModal) {
                 closeModal();
-            }
-            if (event.target == logModal) {
-                closeLogModal();
             }
         }
 
@@ -1072,8 +862,8 @@
                     },
                     body: JSON.stringify({
                         question: question,
-                        use_vision: useVision.checked,
-                        top_k: parseInt(topK.value)
+                        use_vision: true,
+                        top_k: 5
                     })
                 });
 
@@ -1192,9 +982,6 @@
                 } else if (e.key === 'Escape') {
                     closeModal();
                 }
-            }
-            if (logModal.style.display === 'block' && e.key === 'Escape') {
-                closeLogModal();
             }
         });
 
