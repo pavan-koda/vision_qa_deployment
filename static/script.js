@@ -99,33 +99,59 @@ async function uploadPDF() {
     const formData = new FormData();
     formData.append('pdf_file', selectedFile);
 
-    showLoading('Processing Document', 'AI is analyzing your PDF...');
+    showLoading('Processing Document', 'Uploading PDF...');
     uploadBtn.disabled = true;
 
+    // Simulate progress stages
+    updateProgress(10, 'upload');
+
     try {
+        // Start upload
+        setTimeout(() => updateProgress(20, 'upload'), 100);
+
         const response = await fetch('/upload', {
             method: 'POST',
             body: formData
         });
 
+        // Simulate processing stages
+        updateProgress(40, 'processing');
+        loadingText.textContent = 'Processing PDF pages...';
+
+        setTimeout(() => {
+            updateProgress(60, 'extracting');
+            loadingText.textContent = 'Extracting images...';
+        }, 500);
+
+        setTimeout(() => {
+            updateProgress(80, 'indexing');
+            loadingText.textContent = 'Creating vector index...';
+        }, 1000);
+
         const data = await response.json();
 
         if (response.ok && data.success) {
-            showStatus(data.message, 'success');
-            qaSection.style.display = 'block';
-            fileInfo.style.display = 'none';
-            chatHistory.innerHTML = '';
-            questionInput.value = '';
-            questionInput.focus();
+            updateProgress(100, 'complete');
+            loadingText.textContent = 'Complete!';
+
+            setTimeout(() => {
+                showStatus(data.message, 'success');
+                qaSection.style.display = 'block';
+                fileInfo.style.display = 'none';
+                chatHistory.innerHTML = '';
+                questionInput.value = '';
+                questionInput.focus();
+                hideLoading();
+            }, 500);
         } else {
             showStatus(data.error || 'Failed to process PDF', 'error');
             uploadBtn.disabled = false;
+            hideLoading();
         }
     } catch (error) {
         console.error('Error:', error);
         showStatus('An error occurred while uploading the PDF', 'error');
         uploadBtn.disabled = false;
-    } finally {
         hideLoading();
     }
 }
@@ -265,10 +291,54 @@ function showLoading(title = 'Processing', text = 'Please wait...') {
     loadingTitle.textContent = title;
     loadingText.textContent = text;
     loadingOverlay.style.display = 'flex';
+    resetProgress();
 }
 
 function hideLoading() {
     loadingOverlay.style.display = 'none';
+    resetProgress();
+}
+
+// Progress bar functions
+function updateProgress(percentage, stage) {
+    const progressFill = document.getElementById('progress-fill');
+    const stages = document.querySelectorAll('.stage');
+
+    if (progressFill) {
+        progressFill.style.width = percentage + '%';
+    }
+
+    if (stage) {
+        stages.forEach(stageEl => {
+            const stageName = stageEl.getAttribute('data-stage');
+            stageEl.classList.remove('active', 'completed');
+
+            if (stageName === stage) {
+                stageEl.classList.add('active');
+            } else {
+                const stageOrder = ['upload', 'processing', 'extracting', 'indexing', 'complete'];
+                const currentIndex = stageOrder.indexOf(stage);
+                const stageIndex = stageOrder.indexOf(stageName);
+
+                if (stageIndex < currentIndex) {
+                    stageEl.classList.add('completed');
+                }
+            }
+        });
+    }
+}
+
+function resetProgress() {
+    const progressFill = document.getElementById('progress-fill');
+    const stages = document.querySelectorAll('.stage');
+
+    if (progressFill) {
+        progressFill.style.width = '0%';
+    }
+
+    stages.forEach(stage => {
+        stage.classList.remove('active', 'completed');
+    });
 }
 
 // Check server health on load

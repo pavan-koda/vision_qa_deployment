@@ -121,7 +121,7 @@
             </div>
         </div>
 
-        <!-- Loading Overlay -->
+        <!-- Loading Overlay with Progress Bar -->
         <div class="loading-overlay" id="loading-overlay" style="display: none;">
             <div class="loading-content">
                 <div class="loading-spinner">
@@ -133,6 +133,33 @@
                 <div class="loading-text">
                     <h3 id="loading-title">Processing Document</h3>
                     <p id="loading-text">AI is analyzing your PDF...</p>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-stages" id="progress-stages">
+                        <div class="stage" data-stage="upload">
+                            <i class="fas fa-upload"></i>
+                            <span>Uploading</span>
+                        </div>
+                        <div class="stage" data-stage="processing">
+                            <i class="fas fa-file-pdf"></i>
+                            <span>Processing PDF</span>
+                        </div>
+                        <div class="stage" data-stage="extracting">
+                            <i class="fas fa-images"></i>
+                            <span>Extracting Images</span>
+                        </div>
+                        <div class="stage" data-stage="indexing">
+                            <i class="fas fa-database"></i>
+                            <span>Creating Index</span>
+                        </div>
+                        <div class="stage" data-stage="complete">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Complete</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
