@@ -382,7 +382,7 @@ def view_log():
 
                     body {{
                         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+                        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
                         min-height: 100vh;
                         padding: 2rem 1rem;
                     }}
@@ -503,7 +503,7 @@ def view_log():
 
                 body {{
                     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+                    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
                     min-height: 100vh;
                     color: var(--gray-800);
                     line-height: 1.6;
