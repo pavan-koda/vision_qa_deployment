@@ -4,11 +4,12 @@ Flask web application using Llama 3.2-Vision and ColPali
 Handles 500+ page PDFs with images, diagrams, and complex layouts
 """
 
-from flask import Flask, render_template, request, jsonify, session, send_file
+from flask import Flask, render_template, request, jsonify, session, send_file, Response, stream_with_context
 from werkzeug.utils import secure_filename
 import os
 import uuid
 import logging
+import json
 from pathlib import Path
 import time
 from datetime import datetime
@@ -200,6 +201,31 @@ def upload_pdf():
         return jsonify({'error': f'Error processing PDF: {str(e)}'}), 500
 
 
+def get_conversation_history(session_id):
+    """Get conversation history from file (fallback to session)."""
+    try:
+        history_file = Path('data') / session_id / 'history.json'
+        if history_file.exists():
+            with open(history_file, 'r') as f:
+                return json.load(f)
+    except Exception as e:
+        logger.error(f"Error reading history file: {e}")
+    return session.get('conversation_history', [])
+
+
+def save_conversation_history(session_id, history):
+    """Save conversation history to file."""
+    try:
+        history_dir = Path('data') / session_id
+        history_dir.mkdir(exist_ok=True)
+        with open(history_dir / 'history.json', 'w') as f:
+            json.dump(history, f)
+        # Also try to update session for consistency in non-stream requests
+        session['conversation_history'] = history
+    except Exception as e:
+        logger.error(f"Error saving history file: {e}")
+
+
 @app.route('/ask', methods=['POST'])
 def ask_question():
     """Answer question using vision AI."""
@@ -228,14 +254,57 @@ def ask_question():
         # Options
         use_vision = data.get('use_vision', True)
         top_k = int(data.get('top_k', 5))
+        stream = data.get('stream', False)
 
         # Get conversation history from session (limit to last 5)
-        conversation_history = session.get('conversation_history', [])[-5:]
+        conversation_history = get_conversation_history(session_id)[-5:]
 
         logger.info(f"Question: {question[:100]}... (use_vision={use_vision}, top_k={top_k}, history_len={len(conversation_history)})")
 
         # Track response time
         start_time = time.time()
+
+        if stream:
+            def generate():
+                full_answer = ""
+                page_used = None
+                score = 0.0
+                
+                try:
+                    gen = qa_engine.answer_question(
+                        question=question,
+                        session_id=session_id,
+                        top_k=top_k,
+                        use_vision=use_vision,
+                        use_text_context=True,
+                        return_images=True,
+                        conversation_history=conversation_history,
+                        stream=True
+                    )
+
+                    for chunk in gen:
+                        if chunk['type'] == 'metadata':
+                            page_used = chunk.get('page')
+                            score = chunk.get('score', 0.0)
+                            yield json.dumps(chunk) + "\n"
+                        elif chunk['type'] == 'token':
+                            full_answer += chunk['content']
+                            yield json.dumps(chunk) + "\n"
+
+                    # Log performance and save history after stream ends
+                    response_time = time.time() - start_time
+                    page_info = f"Page {page_used}" if page_used else f"Top {top_k} pages"
+                    log_performance(session_id, question, full_answer, response_time, page_info, score)
+
+                    new_history = conversation_history + [{'question': question, 'answer': full_answer, 'page': page_used, 'timestamp': datetime.now().strftime('%H:%M:%S')}]
+                    save_conversation_history(session_id, new_history[-5:])
+
+                except Exception as e:
+                    logger.error(f"Streaming error: {e}")
+                    yield json.dumps({'type': 'error', 'error': str(e)}) + "\n"
+
+            return Response(stream_with_context(generate()), mimetype='application/x-ndjson')
+
 
         # Generate answer with conversation history
         result = qa_engine.answer_question(
@@ -271,18 +340,16 @@ def ask_question():
 
         # Add to conversation history (limit to last 5 exchanges)
         current_timestamp = datetime.now().strftime('%H:%M:%S')
-        if 'conversation_history' not in session:
-            session['conversation_history'] = []
-
-        session['conversation_history'].append({
+        new_entry = {
             'question': question,
             'answer': answer,
             'page': page_used,
             'timestamp': current_timestamp
-        })
-
-        # Keep only last 5 exchanges
-        session['conversation_history'] = session['conversation_history'][-5:]
+        }
+        
+        # Update history using helper
+        new_history = conversation_history + [new_entry]
+        save_conversation_history(session_id, new_history[-5:])
 
         logger.info(f"Answer generated in {response_time:.2f} seconds")
 

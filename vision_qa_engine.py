@@ -176,8 +176,9 @@ class VisionQAEngine:
         query: str,
         image_path: str,
         context: str = "",
-        max_tokens: int = 2000  # Increased for longer, comprehensive answers
-    ) -> str:
+        max_tokens: int = 2000,  # Increased for longer, comprehensive answers
+        stream: bool = False
+    ) -> Any:
         """
         Ask question about an image using Llama 3.2-Vision.
 
@@ -186,9 +187,10 @@ class VisionQAEngine:
             image_path: Path to image
             context: Additional text context
             max_tokens: Maximum response length (up to 2000 for detailed answers)
+            stream: Stream response chunks
 
         Returns:
-            Answer from vision model
+            Answer from vision model (str or generator)
         """
         try:
             # Resize image for faster processing (max 1024px on longest side)
@@ -246,7 +248,7 @@ Answer:"""
                 "model": self.model_name,
                 "prompt": prompt,
                 "images": [image_data],
-                "stream": False,
+                "stream": stream,
                 "options": {
                     "num_predict": max_tokens,
                     "temperature": 0.7,
@@ -260,8 +262,22 @@ Answer:"""
             response = requests.post(
                 f"{self.ollama_url}/api/generate",
                 json=payload,
-                timeout=None  # No timeout - let vision model take as long as needed
+                timeout=None,  # No timeout - let vision model take as long as needed
+                stream=stream
             )
+
+            if stream:
+                def generate_chunks():
+                    if response.status_code == 200:
+                        for line in response.iter_lines():
+                            if line:
+                                try:
+                                    json_response = json.loads(line)
+                                    if 'response' in json_response:
+                                        yield json_response['response']
+                                except Exception as e:
+                                    logger.error(f"Error parsing stream: {e}")
+                return generate_chunks()
 
             if response.status_code == 200:
                 result = response.json()
@@ -282,7 +298,8 @@ Answer:"""
         use_vision: bool = True,
         use_text_context: bool = True,
         return_images: bool = False,
-        conversation_history: List[Dict] = None
+        conversation_history: List[Dict] = None,
+        stream: bool = False
     ):
         """
         Answer question using vision and text understanding.
@@ -295,9 +312,10 @@ Answer:"""
             use_text_context: Include text context
             return_images: Return extracted images with answer
             conversation_history: List of previous Q&A exchanges for context
+            stream: Stream the response
 
         Returns:
-            Answer string or dict with answer and images if return_images=True
+            Answer string, dict, or generator if stream=True
         """
         try:
             # Quick response for greetings and simple queries
@@ -313,6 +331,11 @@ Answer:"""
                     'okay': "Perfect! Ask me anything about your PDF."
                 }
                 response = greeting_responses.get(question.lower().strip(), "Hello! How can I help you with this document?")
+
+                if stream:
+                    yield {'type': 'metadata', 'images': [], 'page': None, 'score': 0.0}
+                    yield {'type': 'token', 'content': response}
+                    return
 
                 if return_images:
                     return {'answer': response, 'images': [], 'page': None}
@@ -336,7 +359,11 @@ Answer:"""
             relevant_pages = self._retrieve_pages(question, session_id, top_k)
 
             if not relevant_pages:
-                return "I couldn't find relevant information in the document."
+                msg = "I couldn't find relevant information in the document."
+                if stream:
+                    yield {'type': 'token', 'content': msg}
+                    return
+                return msg
 
             # Get best page
             best_page = relevant_pages[0]
@@ -406,6 +433,28 @@ Answer:"""
                         rel_path = f"/data/{session_id}/embedded_images/{img_name}"
                         extracted_images.append(rel_path)
                         logger.info(f"Added embedded image: {rel_path}")
+
+            # Handle streaming
+            if stream:
+                # Yield metadata first
+                yield {
+                    'type': 'metadata',
+                    'images': extracted_images,
+                    'page': int(page_num),
+                    'score': best_page['score']
+                }
+
+                # Get generator based on mode
+                if not has_text:
+                    gen = self.query_with_vision(question, image_path, context, stream=True)
+                elif asks_about_visuals and use_vision:
+                    gen = self.query_with_vision(question, image_path, context, stream=True)
+                else:
+                    gen = self._text_only_answer(question, context, conversation_history if use_history else None, stream=True)
+
+                for chunk in gen:
+                    yield {'type': 'token', 'content': chunk}
+                return
 
             # Decide mode
             if not has_text:
@@ -498,7 +547,7 @@ Answer:"""
             logger.error(f"Error retrieving pages: {str(e)}")
             return []
 
-    def _text_only_answer(self, question: str, context: str, conversation_history: List[Dict] = None) -> str:
+    def _text_only_answer(self, question: str, context: str, conversation_history: List[Dict] = None, stream: bool = False) -> Any:
         """
         Generate answer using text context only (no vision).
 
@@ -506,9 +555,10 @@ Answer:"""
             question: Question
             context: Text context
             conversation_history: Previous Q&A exchanges for context
+            stream: Stream response
 
         Returns:
-            Answer
+            Answer string or generator
         """
         try:
             # Build conversation context if history provided
@@ -533,7 +583,7 @@ Provide a comprehensive answer with all details from the context:"""
             payload = {
                 "model": self.model_name,  # Use same vision model (can answer text too)
                 "prompt": prompt,
-                "stream": False,
+                "stream": stream,
                 "options": {
                     "num_predict": 2048,  # Allow longer, more detailed answers
                     "temperature": 0.3,  # Lower temperature for more accurate, factual responses
@@ -545,8 +595,22 @@ Provide a comprehensive answer with all details from the context:"""
             response = requests.post(
                 f"{self.ollama_url}/api/generate",
                 json=payload,
-                timeout=None  # No timeout
+                timeout=None,  # No timeout
+                stream=stream
             )
+
+            if stream:
+                def generate_chunks():
+                    if response.status_code == 200:
+                        for line in response.iter_lines():
+                            if line:
+                                try:
+                                    json_response = json.loads(line)
+                                    if 'response' in json_response:
+                                        yield json_response['response']
+                                except Exception as e:
+                                    logger.error(f"Error parsing stream: {e}")
+                return generate_chunks()
 
             if response.status_code == 200:
                 result = response.json()
