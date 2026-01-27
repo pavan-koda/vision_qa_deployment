@@ -64,7 +64,11 @@ def log_performance(session_id, question, answer, response_time, page_info, accu
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # Create log entry
-    log_entry = f"[{timestamp}] Session: {session_id} | Question: {question[:50]}... | Response Time: {response_time:.2f}s | Page Info: {page_info} | Accuracy: {accuracy:.2f} | Answer Length: {len(answer)}\n"
+    answer_len = 0
+    if isinstance(answer, (str, list, dict, tuple)):
+        answer_len = len(answer)
+
+    log_entry = f"[{timestamp}] Session: {session_id} | Question: {question[:50]}... | Response Time: {response_time:.2f}s | Page Info: {page_info} | Accuracy: {accuracy:.2f} | Answer Length: {answer_len}\n"
 
     # Append to log file (continuous logging)
     try:
@@ -82,7 +86,7 @@ def log_performance(session_id, question, answer, response_time, page_info, accu
         'response_time': response_time,
         'page_info': page_info,
         'accuracy': accuracy,
-        'answer_length': len(answer)
+        'answer_length': answer_len
     }
     performance_logs.append(memory_entry)
     if len(performance_logs) > 100:
@@ -333,6 +337,18 @@ def ask_question():
             images = []
             page_used = None
             score = 0.0
+
+        # Ensure answer is a string (handle potential generator/iterator)
+        if answer is not None and not isinstance(answer, str):
+            if hasattr(answer, '__iter__'):
+                try:
+                    # Consume the generator to get the full text
+                    answer = "".join([str(x) for x in answer])
+                except Exception as e:
+                    logger.warning(f"Failed to consume answer generator: {e}")
+                    answer = str(answer)
+            else:
+                answer = str(answer)
 
         if not answer:
             return jsonify({'error': 'Could not generate an answer. Please try rephrasing your question.'}), 500
