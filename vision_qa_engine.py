@@ -254,8 +254,8 @@ Answer:"""
                     "temperature": 0.7,
                     "top_p": 0.9,
                     "num_ctx": 2048,  # Smaller context window for faster processing
-                    "num_thread": 8,  # Use 8 CPU threads
-                    "num_gpu": 0  # CPU only (set to 1 if you have GPU)
+                    # "num_thread": 8,  # Let Ollama decide threads
+                    # "num_gpu": 0  # Let Ollama decide GPU usage
                 }
             }
 
@@ -588,7 +588,7 @@ Provide a comprehensive answer with all details from the context:"""
                     "num_predict": 2048,  # Allow longer, more detailed answers
                     "temperature": 0.3,  # Lower temperature for more accurate, factual responses
                     "num_ctx": 4096,  # Larger context to fit full page text
-                    "num_thread": 8
+                    # "num_thread": 8
                 }
             }
 

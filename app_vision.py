@@ -4,7 +4,10 @@ Flask web application using Llama 3.2-Vision and ColPali
 Handles 500+ page PDFs with images, diagrams, and complex layouts
 """
 
-from flask import Flask, render_template, request, jsonify, session, send_file, Response, stream_with_context
+from flask import (
+    Flask, render_template, request, jsonify, 
+    session, send_file, Response, stream_with_context
+)
 from werkzeug.utils import secure_filename
 import os
 import uuid
