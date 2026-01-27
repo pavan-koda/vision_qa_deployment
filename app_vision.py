@@ -86,7 +86,7 @@ def log_performance(session_id, question, answer, response_time, page_info, accu
         'response_time': response_time,
         'page_info': page_info,
         'accuracy': accuracy,
-        'answer_length': len(answer)
+        'answer_length': answer_len
     }
     performance_logs.append(memory_entry)
     if len(performance_logs) > 100:
