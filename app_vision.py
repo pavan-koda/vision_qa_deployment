@@ -64,7 +64,6 @@ def log_performance(session_id, question, answer, response_time, page_info, accu
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # Create log entry
-    log_entry = f"[{timestamp}] Session: {session_id} | Question: {question[:50]}... | Response Time: {response_time:.2f}s | Page Info: {page_info} | Accuracy: {accuracy:.2f} | Answer Length: {len(answer)}\n"
     answer_len = 0
     if isinstance(answer, (str, list, dict, tuple)):
         answer_len = len(answer)
