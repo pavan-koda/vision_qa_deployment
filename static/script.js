@@ -174,7 +174,8 @@ async function askQuestion() {
     questionInput.value = '';
     askBtn.disabled = true;
 
-    showLoading('Generating Answer', 'AI is thinking...');
+    // showLoading('Generating Answer', 'AI is thinking...'); // Don't show full overlay for stream
+    const loadingMsg = addMessageToChat('Thinking...', 'answer'); // Placeholder
 
     try {
         const response = await fetch('/ask', {
@@ -182,21 +183,56 @@ async function askQuestion() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ question })
+            body: JSON.stringify({ question, stream: true })
         });
 
-        const data = await response.json();
+        if (response.ok) {
+            // Handle streaming response
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+            let answerText = '';
+            let isFirstToken = true;
 
-        if (response.ok && data.success) {
-            addMessageToChat(data.answer, 'answer');
-            hideStatus();
-        } else {
-            showStatus(data.error || 'Failed to generate answer', 'error');
-            // Remove the question from chat if answer failed
-            const lastMessage = chatHistory.lastElementChild;
-            if (lastMessage) {
-                lastMessage.remove();
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop(); // Keep the last incomplete line
+
+                for (const line of lines) {
+                    if (!line.trim()) continue;
+                    try {
+                        const data = JSON.parse(line);
+                        
+                        if (data.type === 'token') {
+                            if (isFirstToken) {
+                                loadingMsg.textContent = ''; // Clear "Thinking..."
+                                isFirstToken = false;
+                            }
+                            answerText += data.content;
+                            loadingMsg.textContent = answerText;
+                            // Auto scroll
+                            chatHistory.scrollTop = chatHistory.scrollHeight;
+                        } else if (data.type === 'metadata') {
+                            // Handle metadata if needed (e.g. show images)
+                            if (data.images && data.images.length > 0) {
+                                // Could append images to chat here
+                            }
+                        } else if (data.error) {
+                            showStatus(data.error, 'error');
+                        }
+                    } catch (e) {
+                        console.error('Error parsing stream:', e);
+                    }
+                }
             }
+        } else {
+            const data = await response.json();
+            showStatus(data.error || 'Failed to generate answer', 'error');
+            loadingMsg.remove();
         }
     } catch (error) {
         console.error('Error:', error);
@@ -207,7 +243,7 @@ async function askQuestion() {
             lastMessage.remove();
         }
     } finally {
-        hideLoading();
+        // hideLoading();
         askBtn.disabled = false;
         questionInput.focus();
     }
@@ -231,6 +267,7 @@ function addMessageToChat(message, type) {
 
     // Scroll to bottom
     chatHistory.scrollTop = chatHistory.scrollHeight;
+    return content; // Return content div for updates
 }
 
 async function resetSession() {
